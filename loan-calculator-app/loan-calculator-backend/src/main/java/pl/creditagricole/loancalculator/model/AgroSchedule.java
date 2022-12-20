@@ -1,11 +1,11 @@
-package pl.creditagricole.devopsninjabackend.model;
+package pl.creditagricole.loancalculator.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.creditagricole.devopsninjabackend.utils.MathUtils.*;
+import static pl.creditagricole.loancalculator.utils.MathUtils.*;
 
 
 public class AgroSchedule {

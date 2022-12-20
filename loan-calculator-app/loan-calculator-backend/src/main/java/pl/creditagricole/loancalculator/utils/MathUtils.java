@@ -1,4 +1,4 @@
-package pl.creditagricole.devopsninjabackend.utils;
+package pl.creditagricole.loancalculator.utils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

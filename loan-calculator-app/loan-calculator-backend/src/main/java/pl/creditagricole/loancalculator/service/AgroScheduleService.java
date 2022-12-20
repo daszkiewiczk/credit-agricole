@@ -1,16 +1,16 @@
-package pl.creditagricole.devopsninjabackend.service;
+package pl.creditagricole.loancalculator.service;
 
 import org.springframework.stereotype.Service;
-import pl.creditagricole.devopsninjabackend.model.AgroParams;
-import pl.creditagricole.devopsninjabackend.model.AgroSchedule;
-import pl.creditagricole.devopsninjabackend.model.AgroScheduleEntry;
+import pl.creditagricole.loancalculator.model.AgroParams;
+import pl.creditagricole.loancalculator.model.AgroSchedule;
+import pl.creditagricole.loancalculator.model.AgroScheduleEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 
-import static pl.creditagricole.devopsninjabackend.utils.MathUtils.*;
+import static pl.creditagricole.loancalculator.utils.MathUtils.*;
 
 @Service
 public class AgroScheduleService {

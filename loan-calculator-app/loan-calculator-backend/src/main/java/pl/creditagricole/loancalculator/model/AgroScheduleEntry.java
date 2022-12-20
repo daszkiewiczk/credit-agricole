@@ -1,7 +1,4 @@
-package pl.creditagricole.devopsninjabackend.model;
-
-import lombok.Builder;
-import lombok.Value;
+package pl.creditagricole.loancalculator.model;
 
 import java.math.BigDecimal;
 import java.util.Date;

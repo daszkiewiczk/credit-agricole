@@ -1,13 +1,13 @@
-package pl.creditagricole.devopsninjabackend;
+package pl.creditagricole.loancalculator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DevopsninjaBackendApplication {
+public class LoanCalculatorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DevopsninjaBackendApplication.class, args);
+		SpringApplication.run(LoanCalculatorApplication.class, args);
 	}
 
 }

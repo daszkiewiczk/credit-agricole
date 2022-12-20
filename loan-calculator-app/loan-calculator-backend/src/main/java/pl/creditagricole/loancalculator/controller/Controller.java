@@ -1,8 +1,8 @@
-package pl.creditagricole.devopsninjabackend.controller;
+package pl.creditagricole.loancalculator.controller;
 
 import org.springframework.web.bind.annotation.*;
-import pl.creditagricole.devopsninjabackend.model.AgroParams;
-import pl.creditagricole.devopsninjabackend.service.PdfService;
+import pl.creditagricole.loancalculator.model.AgroParams;
+import pl.creditagricole.loancalculator.service.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 

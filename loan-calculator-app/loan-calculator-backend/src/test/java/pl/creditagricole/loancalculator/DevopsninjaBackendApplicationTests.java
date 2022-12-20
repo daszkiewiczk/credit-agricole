@@ -1,4 +1,4 @@
-package pl.creditagricole.devopsninjabackend;
+package pl.creditagricole.loancalculator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

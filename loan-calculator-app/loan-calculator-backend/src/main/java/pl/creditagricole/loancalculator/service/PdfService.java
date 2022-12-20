@@ -1,4 +1,4 @@
-package pl.creditagricole.devopsninjabackend.service;
+package pl.creditagricole.loancalculator.service;
 
 
 import com.lowagie.text.Document;
@@ -9,8 +9,8 @@ import com.lowagie.text.pdf.PdfWriter;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.creditagricole.devopsninjabackend.model.AgroParams;
-import pl.creditagricole.devopsninjabackend.model.AgroSchedule;
+import pl.creditagricole.loancalculator.model.AgroParams;
+import pl.creditagricole.loancalculator.model.AgroSchedule;
 
 import java.math.RoundingMode;
 
