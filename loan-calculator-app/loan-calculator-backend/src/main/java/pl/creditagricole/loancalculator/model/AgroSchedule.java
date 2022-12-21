@@ -41,7 +41,7 @@ public class AgroSchedule {
         if(params.getScheduleType() == AgroParams.ScheduleType.MONTHLY) {
             r = params.getInterestRate().divide(HUNDRED.multiply(TWELVE),MATH_CONTEXT);
             n = params.getPeriod();
-        } else if(params.getScheduleType() == AgroParams.ScheduleType.QUATERLY) {
+        } else if(params.getScheduleType() == AgroParams.ScheduleType.QUARTERLY) {
             r = params.getInterestRate().divide(HUNDRED.multiply(FOUR),MATH_CONTEXT);
             n = params.getPeriod() / 3;
         }
