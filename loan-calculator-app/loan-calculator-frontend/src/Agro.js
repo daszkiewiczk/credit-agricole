@@ -22,7 +22,7 @@ const Agro = () => {
         console.log(schedule);
 
         axios.post(
-            'http://localhost:8080/api/agro',
+            'http://localhost/api/agro',
             schedule,
             {responseType:'blob'})
             .then(res => printSchedule(res.data));
