@@ -16,6 +16,15 @@ spec:
       - name: loan-calculator-backend
         image: daszkiewiczk/loan-calculator-backend:latest
         imagePullPolicy: Never
+        env:
+          - name: DB_NAME
+            value: db
+          - name: DB_USER
+            value: user
+          - name: DB_PASSWORD
+            value: password
+          - name: DB_HOST
+            value: postgres
         ports:
         - containerPort: 8080
 
