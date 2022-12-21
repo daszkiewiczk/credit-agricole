@@ -8,7 +8,7 @@ const Agro = () => {
     const [period, setPeriod] = useState(24);
     const [amount, setAmount] = useState(20_000);
     const [interestRate, setInterestRate] = useState(5);
-    const [scheduleType, setScheduleType] = useState("monthly");
+    const [scheduleType, setScheduleType] = useState("MONTHLY");
 
     const handleSubmit = (e) => {
         console.log("handle submit");
@@ -70,8 +70,8 @@ const Agro = () => {
                 <select
                     value={scheduleType}
                     onChange={(e) => setScheduleType(e.target.value)}>
-                    <option value="monthly">Miesięczny</option>
-                    <option value="quarterly">Kwartalny</option>
+                    <option value="MONTHLY">Miesięczny</option>
+                    <option value="QUARTERLY">Kwartalny</option>
                 </select>
                 <button>Oblicz</button>
 
