@@ -5,5 +5,5 @@ docker run --rm -u gradle -v "$PWD":/home/gradle/project -w /home/gradle/project
 docker build . --tag daszkiewiczk/loan-calculator-backend:latest
 
 
-cd ../loan-calculator-app/loan-calculator-frontend || return
+cd ../loan-calculator-frontend || return
 docker build . -t daszkiewiczk/loan-calculator-frontend:latest
