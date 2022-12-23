@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan-calculator-frontend
+spec:
+  selector:
+    matchLabels:
+      app: loan-calculator-frontend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: loan-calculator-frontend
+    spec:
+      containers:
+        - name: loan-calculator-frontend
+          image: daszkiewiczk/loan-calculator-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+
+
+
