@@ -5,11 +5,7 @@ alertmanager:
     annotations:
       kubernetes.io/ingress.class: kong
     hosts:
-      - host: alertmanager.loan-calculator.local
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - alertmanager.loan-calculator.local
-        secretName: alertmanager.loan-calculator.local-tls
+      - alertmanager.loan-calculator.local
+    paths:
+      - /
+    pathType: Prefix
