@@ -7,3 +7,10 @@ alertmanager:
     paths:
       - /
     pathType: Prefix
+grafana:
+    ingress:
+        enabled: true
+        ingressClassName: kong
+        hosts:
+        - grafana.loan-calculator.local
+        path: /
