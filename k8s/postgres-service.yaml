@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
+  namespace: loan-calculator
 spec:
   type: ClusterIP
   selector:
