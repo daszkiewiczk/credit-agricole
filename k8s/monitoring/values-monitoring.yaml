@@ -3,7 +3,7 @@ alertmanager:
     enabled: true
     ingressClassName: kong
     hosts:
-      - alertmanager.loan-calculator.local
+      - "alermanager.local"
     paths:
       - /
     pathType: Prefix
@@ -12,5 +12,5 @@ grafana:
         enabled: true
         ingressClassName: kong
         hosts:
-        - grafana.loan-calculator.local
+        - "grafana.local"
         path: /
