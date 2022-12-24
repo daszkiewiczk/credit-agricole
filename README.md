@@ -12,7 +12,7 @@ https://kind.sigs.k8s.io/docs/user/quick-start/#installation
 
 2. git clone the repository
 
-`git clone https://github.com/daszkiewicz/credit-agricole`
+`git clone https://github.com/daszkiewiczk/credit-agricole`
 
 
 
