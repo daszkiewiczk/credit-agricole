@@ -52,7 +52,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: monitoring-kube-prometheus-alertmanager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-alertmanager
     app.kubernetes.io/name: kube-prometheus-stack-alertmanager
@@ -71,7 +71,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: monitoring-kube-prometheus-operator
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-operator
     app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
@@ -90,7 +90,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: monitoring-kube-prometheus-prometheus
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-prometheus
     app.kubernetes.io/name: kube-prometheus-stack-prometheus
@@ -127,7 +127,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: alertmanager-monitoring-kube-prometheus-alertmanager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-alertmanager
     
@@ -220,7 +220,7 @@ data:
     - name: Prometheus
       type: prometheus
       uid: prometheus
-      url: http://monitoring-kube-prometheus-prometheus.default:9090/
+      url: http://monitoring-kube-prometheus-prometheus.monitoring:9090/
       access: proxy
       isDefault: true
       jsonData:
@@ -39624,7 +39624,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: monitoring-kube-prometheus-operator
-  namespace: default
+  namespace: monitoring
 ---
 # Source: kube-prometheus-stack/templates/prometheus/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39648,7 +39648,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: monitoring-kube-prometheus-prometheus
-    namespace: default
+    namespace: monitoring
 ---
 # Source: kube-prometheus-stack/charts/grafana/templates/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39771,7 +39771,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: monitoring-kube-prometheus-alertmanager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-alertmanager
     self-monitor: "true"
@@ -39938,7 +39938,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: monitoring-kube-prometheus-operator
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-operator
     
@@ -39964,7 +39964,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: monitoring-kube-prometheus-prometheus
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-prometheus
     self-monitor: "true"
@@ -40337,7 +40337,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: monitoring-kube-prometheus-operator
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-operator
     
@@ -40414,7 +40414,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
   name: monitoring-kube-prometheus-alertmanager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-alertmanager
     
@@ -40431,7 +40431,7 @@ spec:
   replicas: 1
   listenLocal: false
   serviceAccountName: monitoring-kube-prometheus-alertmanager
-  externalUrl: http://monitoring-kube-prometheus-alertmanager.default:9093
+  externalUrl: http://monitoring-kube-prometheus-alertmanager.monitoring:9093
   paused: false
   logFormat: "logfmt"
   logLevel:  "info"
@@ -40475,7 +40475,7 @@ webhooks:
           - UPDATE
     clientConfig:
       service:
-        namespace: default
+        namespace: monitoring
         name: monitoring-kube-prometheus-operator
         path: /admission-prometheusrules/mutate
     timeoutSeconds: 10
@@ -40487,7 +40487,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   name: monitoring-kube-prometheus-prometheus
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-prometheus
     
@@ -40501,14 +40501,14 @@ metadata:
 spec:
   alerting:
     alertmanagers:
-      - namespace: default
+      - namespace: monitoring
         name: monitoring-kube-prometheus-alertmanager
         port: http-web
         pathPrefix: "/"
         apiVersion: v2
   image: "quay.io/prometheus/prometheus:v2.40.5"
   version: v2.40.5
-  externalUrl: http://monitoring-kube-prometheus-prometheus.default:9090
+  externalUrl: http://monitoring-kube-prometheus-prometheus.monitoring:9090
   paused: false
   replicas: 1
   shards: 1
@@ -40553,7 +40553,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-alertmanager.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -40576,7 +40576,7 @@ spec:
       expr: |-
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-        max_over_time(alertmanager_config_last_reload_successful{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[5m]) == 0
+        max_over_time(alertmanager_config_last_reload_successful{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[5m]) == 0
       for: 10m
       labels:
         severity: critical
@@ -40588,9 +40588,9 @@ spec:
       expr: |-
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-          max_over_time(alertmanager_cluster_members{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[5m])
+          max_over_time(alertmanager_cluster_members{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[5m])
         < on (namespace,service) group_left
-          count by (namespace,service) (max_over_time(alertmanager_cluster_members{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[5m]))
+          count by (namespace,service) (max_over_time(alertmanager_cluster_members{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[5m]))
       for: 15m
       labels:
         severity: critical
@@ -40601,9 +40601,9 @@ spec:
         summary: An Alertmanager instance failed to send notifications.
       expr: |-
         (
-          rate(alertmanager_notifications_failed_total{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[5m])
+          rate(alertmanager_notifications_failed_total{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[5m])
         /
-          rate(alertmanager_notifications_total{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[5m])
+          rate(alertmanager_notifications_total{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[5m])
         )
         > 0.01
       for: 5m
@@ -40616,9 +40616,9 @@ spec:
         summary: All Alertmanager instances in a cluster failed to send notifications to a critical integration.
       expr: |-
         min by (namespace,service, integration) (
-          rate(alertmanager_notifications_failed_total{job="monitoring-kube-prometheus-alertmanager",namespace="default", integration=~`.*`}[5m])
+          rate(alertmanager_notifications_failed_total{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring", integration=~`.*`}[5m])
         /
-          rate(alertmanager_notifications_total{job="monitoring-kube-prometheus-alertmanager",namespace="default", integration=~`.*`}[5m])
+          rate(alertmanager_notifications_total{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring", integration=~`.*`}[5m])
         )
         > 0.01
       for: 5m
@@ -40631,9 +40631,9 @@ spec:
         summary: All Alertmanager instances in a cluster failed to send notifications to a non-critical integration.
       expr: |-
         min by (namespace,service, integration) (
-          rate(alertmanager_notifications_failed_total{job="monitoring-kube-prometheus-alertmanager",namespace="default", integration!~`.*`}[5m])
+          rate(alertmanager_notifications_failed_total{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring", integration!~`.*`}[5m])
         /
-          rate(alertmanager_notifications_total{job="monitoring-kube-prometheus-alertmanager",namespace="default", integration!~`.*`}[5m])
+          rate(alertmanager_notifications_total{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring", integration!~`.*`}[5m])
         )
         > 0.01
       for: 5m
@@ -40646,7 +40646,7 @@ spec:
         summary: Alertmanager instances within the same cluster have different configurations.
       expr: |-
         count by (namespace,service) (
-          count_values by (namespace,service) ("config_hash", alertmanager_config_hash{job="monitoring-kube-prometheus-alertmanager",namespace="default"})
+          count_values by (namespace,service) ("config_hash", alertmanager_config_hash{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"})
         )
         != 1
       for: 20m
@@ -40660,11 +40660,11 @@ spec:
       expr: |-
         (
           count by (namespace,service) (
-            avg_over_time(up{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[5m]) < 0.5
+            avg_over_time(up{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[5m]) < 0.5
           )
         /
           count by (namespace,service) (
-            up{job="monitoring-kube-prometheus-alertmanager",namespace="default"}
+            up{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}
           )
         )
         >= 0.5
@@ -40679,11 +40679,11 @@ spec:
       expr: |-
         (
           count by (namespace,service) (
-            changes(process_start_time_seconds{job="monitoring-kube-prometheus-alertmanager",namespace="default"}[10m]) > 4
+            changes(process_start_time_seconds{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}[10m]) > 4
           )
         /
           count by (namespace,service) (
-            up{job="monitoring-kube-prometheus-alertmanager",namespace="default"}
+            up{job="monitoring-kube-prometheus-alertmanager",namespace="monitoring"}
           )
         )
         >= 0.5
@@ -40696,7 +40696,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-config-reloaders
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -40728,7 +40728,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-etcd
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -40896,7 +40896,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-general.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -40964,7 +40964,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-k8s.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41131,7 +41131,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-apiserver-availability.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41261,7 +41261,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-apiserver-burnrate.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41583,7 +41583,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-apiserver-histogram.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41614,7 +41614,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-apiserver-slos
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41691,7 +41691,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-prometheus-general.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41716,7 +41716,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-prometheus-node-recording.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41749,7 +41749,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-scheduler.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41806,7 +41806,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kube-state-metrics
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41875,7 +41875,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubelet.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -41908,7 +41908,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-apps
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42156,7 +42156,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-resources
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42279,7 +42279,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-storage
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42393,7 +42393,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-system-apiserver
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42467,7 +42467,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-system-controller-manager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42497,7 +42497,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-system-kube-proxy
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42527,7 +42527,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-system-kubelet
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42668,7 +42668,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-system-scheduler
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42698,7 +42698,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-kubernetes-system
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42741,7 +42741,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-node-exporter.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -42824,7 +42824,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-node-exporter
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -43072,7 +43072,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-node-network
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -43102,7 +43102,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-node.rules
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -43159,7 +43159,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-prometheus-operator
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -43179,7 +43179,7 @@ spec:
         description: Errors while performing List operations in controller {{$labels.controller}} in {{$labels.namespace}} namespace.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatorlisterrors
         summary: Errors while performing list operations in controller.
-      expr: (sum by (controller,namespace) (rate(prometheus_operator_list_operations_failed_total{job="monitoring-kube-prometheus-operator",namespace="default"}[10m])) / sum by (controller,namespace) (rate(prometheus_operator_list_operations_total{job="monitoring-kube-prometheus-operator",namespace="default"}[10m]))) > 0.4
+      expr: (sum by (controller,namespace) (rate(prometheus_operator_list_operations_failed_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[10m])) / sum by (controller,namespace) (rate(prometheus_operator_list_operations_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[10m]))) > 0.4
       for: 15m
       labels:
         severity: warning
@@ -43188,7 +43188,7 @@ spec:
         description: Errors while performing watch operations in controller {{$labels.controller}} in {{$labels.namespace}} namespace.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatorwatcherrors
         summary: Errors while performing watch operations in controller.
-      expr: (sum by (controller,namespace) (rate(prometheus_operator_watch_operations_failed_total{job="monitoring-kube-prometheus-operator",namespace="default"}[5m])) / sum by (controller,namespace) (rate(prometheus_operator_watch_operations_total{job="monitoring-kube-prometheus-operator",namespace="default"}[5m]))) > 0.4
+      expr: (sum by (controller,namespace) (rate(prometheus_operator_watch_operations_failed_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m])) / sum by (controller,namespace) (rate(prometheus_operator_watch_operations_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]))) > 0.4
       for: 15m
       labels:
         severity: warning
@@ -43197,7 +43197,7 @@ spec:
         description: Controller {{ $labels.controller }} in {{ $labels.namespace }} namespace fails to reconcile {{ $value }} objects.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatorsyncfailed
         summary: Last controller reconciliation failed
-      expr: min_over_time(prometheus_operator_syncs{status="failed",job="monitoring-kube-prometheus-operator",namespace="default"}[5m]) > 0
+      expr: min_over_time(prometheus_operator_syncs{status="failed",job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]) > 0
       for: 10m
       labels:
         severity: warning
@@ -43206,7 +43206,7 @@ spec:
         description: '{{ $value | humanizePercentage }} of reconciling operations failed for {{ $labels.controller }} controller in {{ $labels.namespace }} namespace.'
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatorreconcileerrors
         summary: Errors while reconciling controller.
-      expr: (sum by (controller,namespace) (rate(prometheus_operator_reconcile_errors_total{job="monitoring-kube-prometheus-operator",namespace="default"}[5m]))) / (sum by (controller,namespace) (rate(prometheus_operator_reconcile_operations_total{job="monitoring-kube-prometheus-operator",namespace="default"}[5m]))) > 0.1
+      expr: (sum by (controller,namespace) (rate(prometheus_operator_reconcile_errors_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]))) / (sum by (controller,namespace) (rate(prometheus_operator_reconcile_operations_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]))) > 0.1
       for: 10m
       labels:
         severity: warning
@@ -43215,7 +43215,7 @@ spec:
         description: Errors while reconciling Prometheus in {{ $labels.namespace }} Namespace.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatornodelookuperrors
         summary: Errors while reconciling Prometheus.
-      expr: rate(prometheus_operator_node_address_lookup_errors_total{job="monitoring-kube-prometheus-operator",namespace="default"}[5m]) > 0.1
+      expr: rate(prometheus_operator_node_address_lookup_errors_total{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]) > 0.1
       for: 10m
       labels:
         severity: warning
@@ -43224,7 +43224,7 @@ spec:
         description: Prometheus operator in {{ $labels.namespace }} namespace isn't ready to reconcile {{ $labels.controller }} resources.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatornotready
         summary: Prometheus operator not ready
-      expr: min by (controller,namespace) (max_over_time(prometheus_operator_ready{job="monitoring-kube-prometheus-operator",namespace="default"}[5m]) == 0)
+      expr: min by (controller,namespace) (max_over_time(prometheus_operator_ready{job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]) == 0)
       for: 5m
       labels:
         severity: warning
@@ -43233,7 +43233,7 @@ spec:
         description: Prometheus operator in {{ $labels.namespace }} namespace rejected {{ printf "%0.0f" $value }} {{ $labels.controller }}/{{ $labels.resource }} resources.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/prometheusoperatorrejectedresources
         summary: Resources rejected by Prometheus operator
-      expr: min_over_time(prometheus_operator_managed_resources{state="rejected",job="monitoring-kube-prometheus-operator",namespace="default"}[5m]) > 0
+      expr: min_over_time(prometheus_operator_managed_resources{state="rejected",job="monitoring-kube-prometheus-operator",namespace="monitoring"}[5m]) > 0
       for: 5m
       labels:
         severity: warning
@@ -43243,7 +43243,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: monitoring-kube-prometheus-prometheus
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack
     
@@ -43266,7 +43266,7 @@ spec:
       expr: |-
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-        max_over_time(prometheus_config_last_reload_successful{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) == 0
+        max_over_time(prometheus_config_last_reload_successful{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) == 0
       for: 10m
       labels:
         severity: critical
@@ -43279,9 +43279,9 @@ spec:
         # Without min_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         (
-          predict_linear(prometheus_notifications_queue_length{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m], 60 * 30)
+          predict_linear(prometheus_notifications_queue_length{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m], 60 * 30)
         >
-          min_over_time(prometheus_notifications_queue_capacity{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          min_over_time(prometheus_notifications_queue_capacity{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         )
       for: 15m
       labels:
@@ -43293,9 +43293,9 @@ spec:
         summary: Prometheus has encountered more than 1% errors sending alerts to a specific Alertmanager.
       expr: |-
         (
-          rate(prometheus_notifications_errors_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          rate(prometheus_notifications_errors_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         /
-          rate(prometheus_notifications_sent_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          rate(prometheus_notifications_sent_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         )
         * 100
         > 1
@@ -43310,7 +43310,7 @@ spec:
       expr: |-
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-        max_over_time(prometheus_notifications_alertmanagers_discovered{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) < 1
+        max_over_time(prometheus_notifications_alertmanagers_discovered{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) < 1
       for: 10m
       labels:
         severity: warning
@@ -43319,7 +43319,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has detected {{$value | humanize}} reload failures over the last 3h.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheustsdbreloadsfailing
         summary: Prometheus has issues reloading blocks from disk.
-      expr: increase(prometheus_tsdb_reloads_failures_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[3h]) > 0
+      expr: increase(prometheus_tsdb_reloads_failures_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[3h]) > 0
       for: 4h
       labels:
         severity: warning
@@ -43328,7 +43328,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has detected {{$value | humanize}} compaction failures over the last 3h.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheustsdbcompactionsfailing
         summary: Prometheus has issues compacting blocks.
-      expr: increase(prometheus_tsdb_compactions_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[3h]) > 0
+      expr: increase(prometheus_tsdb_compactions_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[3h]) > 0
       for: 4h
       labels:
         severity: warning
@@ -43339,12 +43339,12 @@ spec:
         summary: Prometheus is not ingesting samples.
       expr: |-
         (
-          rate(prometheus_tsdb_head_samples_appended_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) <= 0
+          rate(prometheus_tsdb_head_samples_appended_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) <= 0
         and
           (
-            sum without(scrape_job) (prometheus_target_metadata_cache_entries{job="monitoring-kube-prometheus-prometheus",namespace="default"}) > 0
+            sum without(scrape_job) (prometheus_target_metadata_cache_entries{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}) > 0
           or
-            sum without(rule_group) (prometheus_rule_group_rules{job="monitoring-kube-prometheus-prometheus",namespace="default"}) > 0
+            sum without(rule_group) (prometheus_rule_group_rules{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}) > 0
           )
         )
       for: 10m
@@ -43355,7 +43355,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} is dropping {{ printf "%.4g" $value  }} samples/s with different values but duplicated timestamp.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusduplicatetimestamps
         summary: Prometheus is dropping samples with duplicate timestamps.
-      expr: rate(prometheus_target_scrapes_sample_duplicate_timestamp_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: rate(prometheus_target_scrapes_sample_duplicate_timestamp_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 10m
       labels:
         severity: warning
@@ -43364,7 +43364,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} is dropping {{ printf "%.4g" $value  }} samples/s with timestamps arriving out of order.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusoutofordertimestamps
         summary: Prometheus drops samples with out-of-order timestamps.
-      expr: rate(prometheus_target_scrapes_sample_out_of_order_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: rate(prometheus_target_scrapes_sample_out_of_order_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 10m
       labels:
         severity: warning
@@ -43375,12 +43375,12 @@ spec:
         summary: Prometheus fails to send samples to remote storage.
       expr: |-
         (
-          (rate(prometheus_remote_storage_failed_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) or rate(prometheus_remote_storage_samples_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]))
+          (rate(prometheus_remote_storage_failed_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) or rate(prometheus_remote_storage_samples_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]))
         /
           (
-            (rate(prometheus_remote_storage_failed_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) or rate(prometheus_remote_storage_samples_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]))
+            (rate(prometheus_remote_storage_failed_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) or rate(prometheus_remote_storage_samples_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]))
           +
-            (rate(prometheus_remote_storage_succeeded_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) or rate(prometheus_remote_storage_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]))
+            (rate(prometheus_remote_storage_succeeded_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) or rate(prometheus_remote_storage_samples_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]))
           )
         )
         * 100
@@ -43397,9 +43397,9 @@ spec:
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         (
-          max_over_time(prometheus_remote_storage_highest_timestamp_in_seconds{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          max_over_time(prometheus_remote_storage_highest_timestamp_in_seconds{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         - ignoring(remote_name, url) group_right
-          max_over_time(prometheus_remote_storage_queue_highest_sent_timestamp_seconds{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          max_over_time(prometheus_remote_storage_queue_highest_sent_timestamp_seconds{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         )
         > 120
       for: 15m
@@ -43407,16 +43407,16 @@ spec:
         severity: critical
     - alert: PrometheusRemoteWriteDesiredShards
       annotations:
-        description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write desired shards calculation wants to run {{ $value }} shards for queue {{ $labels.remote_name}}:{{ $labels.url }}, which is more than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="monitoring-kube-prometheus-prometheus",namespace="default"}` $labels.instance | query | first | value }}.
+        description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write desired shards calculation wants to run {{ $value }} shards for queue {{ $labels.remote_name}}:{{ $labels.url }}, which is more than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}` $labels.instance | query | first | value }}.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusremotewritedesiredshards
         summary: Prometheus remote write desired shards calculation wants to run more than configured max shards.
       expr: |-
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         (
-          max_over_time(prometheus_remote_storage_shards_desired{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          max_over_time(prometheus_remote_storage_shards_desired{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         >
-          max_over_time(prometheus_remote_storage_shards_max{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m])
+          max_over_time(prometheus_remote_storage_shards_max{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m])
         )
       for: 15m
       labels:
@@ -43426,7 +43426,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has failed to evaluate {{ printf "%.0f" $value }} rules in the last 5m.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusrulefailures
         summary: Prometheus is failing rule evaluations.
-      expr: increase(prometheus_rule_evaluation_failures_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: increase(prometheus_rule_evaluation_failures_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
         severity: critical
@@ -43435,7 +43435,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has missed {{ printf "%.0f" $value }} rule group evaluations in the last 5m.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusmissingruleevaluations
         summary: Prometheus is missing rule evaluations due to slow rule group evaluation.
-      expr: increase(prometheus_rule_group_iterations_missed_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: increase(prometheus_rule_group_iterations_missed_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
         severity: warning
@@ -43444,7 +43444,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has dropped {{ printf "%.0f" $value }} targets because the number of targets exceeded the configured target_limit.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheustargetlimithit
         summary: Prometheus has dropped targets because some scrape configs have exceeded the targets limit.
-      expr: increase(prometheus_target_scrape_pool_exceeded_target_limit_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: increase(prometheus_target_scrape_pool_exceeded_target_limit_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
         severity: warning
@@ -43453,7 +43453,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has dropped {{ printf "%.0f" $value }} targets because some samples exceeded the configured label_limit, label_name_length_limit or label_value_length_limit.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheuslabellimithit
         summary: Prometheus has dropped targets because some scrape configs have exceeded the labels limit.
-      expr: increase(prometheus_target_scrape_pool_exceeded_label_limits_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: increase(prometheus_target_scrape_pool_exceeded_label_limits_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
         severity: warning
@@ -43462,7 +43462,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has failed {{ printf "%.0f" $value }} scrapes in the last 5m because some targets exceeded the configured body_size_limit.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusscrapebodysizelimithit
         summary: Prometheus has dropped some targets that exceeded body size limit.
-      expr: increase(prometheus_target_scrapes_exceeded_body_size_limit_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: increase(prometheus_target_scrapes_exceeded_body_size_limit_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
         severity: warning
@@ -43471,7 +43471,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} has failed {{ printf "%.0f" $value }} scrapes in the last 5m because some targets exceeded the configured sample_limit.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheusscrapesamplelimithit
         summary: Prometheus has failed scrapes that have exceeded the configured sample limit.
-      expr: increase(prometheus_target_scrapes_exceeded_sample_limit_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0
+      expr: increase(prometheus_target_scrapes_exceeded_sample_limit_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0
       for: 15m
       labels:
         severity: warning
@@ -43480,7 +43480,7 @@ spec:
         description: '{{ printf "%.0f" $value }} targets in Prometheus {{$labels.namespace}}/{{$labels.pod}} have failed to sync because invalid configuration was supplied.'
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheustargetsyncfailure
         summary: Prometheus has failed to sync targets.
-      expr: increase(prometheus_target_sync_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="default"}[30m]) > 0
+      expr: increase(prometheus_target_sync_failed_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[30m]) > 0
       for: 5m
       labels:
         severity: critical
@@ -43489,7 +43489,7 @@ spec:
         description: Prometheus {{$labels.namespace}}/{{$labels.pod}} query API has less than 20% available capacity in its query engine for the last 15 minutes.
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/prometheushighqueryload
         summary: Prometheus is reaching its maximum capacity serving concurrent requests.
-      expr: avg_over_time(prometheus_engine_queries{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) / max_over_time(prometheus_engine_queries_concurrent_max{job="monitoring-kube-prometheus-prometheus",namespace="default"}[5m]) > 0.8
+      expr: avg_over_time(prometheus_engine_queries{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) / max_over_time(prometheus_engine_queries_concurrent_max{job="monitoring-kube-prometheus-prometheus",namespace="monitoring"}[5m]) > 0.8
       for: 15m
       labels:
         severity: warning
@@ -43500,9 +43500,9 @@ spec:
         summary: Prometheus encounters more than 3% errors sending alerts to any Alertmanager.
       expr: |-
         min without (alertmanager) (
-          rate(prometheus_notifications_errors_total{job="monitoring-kube-prometheus-prometheus",namespace="default",alertmanager!~``}[5m])
+          rate(prometheus_notifications_errors_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring",alertmanager!~``}[5m])
         /
-          rate(prometheus_notifications_sent_total{job="monitoring-kube-prometheus-prometheus",namespace="default",alertmanager!~``}[5m])
+          rate(prometheus_notifications_sent_total{job="monitoring-kube-prometheus-prometheus",namespace="monitoring",alertmanager!~``}[5m])
         )
         * 100
         > 3
@@ -43595,7 +43595,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-alertmanager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-alertmanager
     
@@ -43614,7 +43614,7 @@ spec:
       self-monitor: "true"
   namespaceSelector:
     matchNames:
-      - "default"
+      - "monitoring"
   endpoints:
   - port: http-web
     enableHttp2: true
@@ -43625,7 +43625,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-coredns
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-coredns
     
@@ -43654,7 +43654,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-apiserver
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-apiserver
     
@@ -43694,7 +43694,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-kube-controller-manager
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-kube-controller-manager
     
@@ -43723,7 +43723,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-kube-etcd
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-kube-etcd
     
@@ -43752,7 +43752,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-kube-proxy
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-kube-proxy
     
@@ -43781,7 +43781,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-kube-scheduler
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-kube-scheduler
     
@@ -43810,7 +43810,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-kubelet
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-kubelet    
     app.kubernetes.io/managed-by: Helm
@@ -43900,7 +43900,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-operator
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-operator
     
@@ -43929,14 +43929,14 @@ spec:
       release: "monitoring"
   namespaceSelector:
     matchNames:
-      - "default"
+      - "monitoring"
 ---
 # Source: kube-prometheus-stack/templates/prometheus/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: monitoring-kube-prometheus-prometheus
-  namespace: default
+  namespace: monitoring
   labels:
     app: kube-prometheus-stack-prometheus
     
@@ -43955,7 +43955,7 @@ spec:
       self-monitor: "true"
   namespaceSelector:
     matchNames:
-      - "default"
+      - "monitoring"
   endpoints:
   - port: http-web
     path: "/metrics"
@@ -43989,7 +43989,7 @@ webhooks:
           - UPDATE
     clientConfig:
       service:
-        namespace: default
+        namespace: monitoring
         name: monitoring-kube-prometheus-operator
         path: /admission-prometheusrules/validate
     timeoutSeconds: 10
@@ -44017,7 +44017,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name:  monitoring-kube-prometheus-admission
-  namespace: default
+  namespace: monitoring
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
@@ -44106,14 +44106,14 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: monitoring-kube-prometheus-admission
-    namespace: default
+    namespace: monitoring
 ---
 # Source: kube-prometheus-stack/templates/prometheus-operator/admission-webhooks/job-patch/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name:  monitoring-kube-prometheus-admission
-  namespace: default
+  namespace: monitoring
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
@@ -44140,7 +44140,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name:  monitoring-kube-prometheus-admission
-  namespace: default
+  namespace: monitoring
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade,post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
@@ -44160,7 +44160,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: monitoring-kube-prometheus-admission
-    namespace: default
+    namespace: monitoring
 ---
 # Source: kube-prometheus-stack/charts/grafana/templates/tests/test.yaml
 apiVersion: v1
@@ -44199,7 +44199,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name:  monitoring-kube-prometheus-admission-create
-  namespace: default
+  namespace: monitoring
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded   
@@ -44232,8 +44232,8 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - create
-            - --host=monitoring-kube-prometheus-operator,monitoring-kube-prometheus-operator.default.svc
-            - --namespace=default
+            - --host=monitoring-kube-prometheus-operator,monitoring-kube-prometheus-operator.monitoring.svc
+            - --namespace=monitoring
             - --secret-name=monitoring-kube-prometheus-admission
           securityContext:
           
@@ -44252,7 +44252,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name:  monitoring-kube-prometheus-admission-patch
-  namespace: default
+  namespace: monitoring
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded   
@@ -44286,7 +44286,7 @@ spec:
           args:
             - patch
             - --webhook-name=monitoring-kube-prometheus-admission
-            - --namespace=default
+            - --namespace=monitoring
             - --secret-name=monitoring-kube-prometheus-admission
             - --patch-failure-policy=Fail
           securityContext:
