@@ -11,3 +11,7 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 kubectl -n argocd patch service argocd-server -p '{"spec":{"type":"NodePort"}}'
 
+#define argocd objects
+kubectl apply -f argocd-repository.yaml
+kubectl apply -f argocd-application.yaml
+
