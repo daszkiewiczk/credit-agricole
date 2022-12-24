@@ -5,7 +5,7 @@ kind create cluster --name kazik --config ../cluster.yaml
 
 #create seperate namespaces for application and monitoring
 kubectl create namespace loan-calculator
-kubectl create namespace loan-calculator-monitoring
+kubectl create namespace monitoring
 
 #make ingress possible
 kubectl apply -f https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/master/deploy/single/all-in-one-dbless.yaml
