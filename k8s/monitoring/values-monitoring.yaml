@@ -2,8 +2,6 @@ alertmanager:
   ingress:
     enabled: true
     ingressClassName: kong
-    annotations:
-      kubernetes.io/ingress.class: kong
     hosts:
       - alertmanager.loan-calculator.local
     paths:
