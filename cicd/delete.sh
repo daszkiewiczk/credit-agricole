@@ -1,10 +1,5 @@
-kubectl delete deployment loan-calculator-backend
-kubectl delete svc loan-calculator-backend-service
-
-kubectl delete deployment postgres-deployment
-kubectl delete svc postgres-service
-
-kubectl delete deployment frontend-deployment
-kubectl delete deployment frontend-service
+kubectl delete all --all -n loan-calculator
+kubectl delete all --all -n kong
+kubectl delete all --all -n argocd
 
 kind delete cluster --name kazik
