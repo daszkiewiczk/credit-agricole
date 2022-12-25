@@ -24,7 +24,15 @@ spec:
         - name: grafana.ingress.ingressClassName
           value: kong
         - name: grafana.ingress.hosts[0]
-          value: 'grafana.local' 
+          value: 'grafana.local'
+        - name: prometheus.ingress.enabled
+          value: 'true'
+        - name: prometheus.ingress.ingressClassName
+          value: kong
+        - name: prometheus.ingress.hosts[0]
+          value: 'prometheus.local'
+        - name: prometheus.ingress.paths[0]
+          value: /
     chart: kube-prometheus-stack
   destination:
     server: 'https://kubernetes.default.svc'
