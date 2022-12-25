@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: loan-calculator-backend
-        image: daszkiewiczk/loan-calculator-backend:latest
+        image: daszkiewiczk/loan-calculator:backend
         env:
           - name: DB_NAME
             value: db
