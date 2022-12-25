@@ -28,7 +28,11 @@ chmod u+x setup.sh build.sh
 ./build.sh
 ```
 
+Grafana is available at grafana.local
 
+```
+echo '127.0.0.1 grafana.local' > /etc/hosts
+```
 
 # Troubleshooting
 
