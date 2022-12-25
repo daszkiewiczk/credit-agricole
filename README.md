@@ -1,4 +1,4 @@
->Kubernetes deployment was tested on Ubuntu 22.04
+>Kubernetes cluster and residing applicaiton were tested on Ubuntu 22.04
 
 # To setup the cluster and run the app:
 
