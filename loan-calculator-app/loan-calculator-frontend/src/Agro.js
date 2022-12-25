@@ -36,7 +36,7 @@ const Agro = () => {
 
     return (
         <div className="agro">
-            <h2>Pożyczka Agro</h2>
+            <h2>Pożyczka Agro [this is a github action test]</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Imię i nazwisko:</label>
                 <input type="text"
