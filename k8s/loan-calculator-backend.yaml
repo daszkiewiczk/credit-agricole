@@ -27,4 +27,6 @@ spec:
             value: postgres
         ports:
         - containerPort: 8080
+        imagePullSecrets:
+          - name: image-repository-secret
 
