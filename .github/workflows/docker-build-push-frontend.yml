@@ -5,7 +5,8 @@ on:
     branches:
       - 'master'
       - 'dev'
-
+    paths:
+      - loan-calculator-app/loan-calculator-frontend
 jobs:
   docker:
     runs-on: ubuntu-latest
