@@ -1,3 +1,5 @@
+>Kubernetes cluster and residing applicaiton were tested on Ubuntu 22.04
+
 # To setup the cluster and run the app:
 
 1. Install docker, kubectl and kind according to providers' instructions:
@@ -28,7 +30,13 @@ chmod u+x setup.sh build.sh
 ./build.sh
 ```
 
+Loan calculator frontend application is available at `localhost`
 
+Grafana is available at `grafana.local`
+
+```
+echo '127.0.0.1 grafana.local' > /etc/hosts
+```
 
 # Troubleshooting
 
