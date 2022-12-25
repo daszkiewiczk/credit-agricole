@@ -23,7 +23,7 @@ spec:
           value: /
         - name: grafana.ingress.ingressClassName
           value: kong
-        - name: grafana.ingress.hosts
+        - name: grafana.ingress.hosts[0]
           value: 'grafana.local' 
     chart: kube-prometheus-stack
   destination:
