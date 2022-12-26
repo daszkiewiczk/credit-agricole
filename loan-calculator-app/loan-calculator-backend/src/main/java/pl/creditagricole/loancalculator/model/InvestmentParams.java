@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "agro_loans")
 
-public class AgroParams {
+public class InvestmentParams {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
@@ -21,20 +21,23 @@ public class AgroParams {
     private BigDecimal interestRate;
     @Column(name = "schedule_type")
     private ScheduleType scheduleType;
+    private BigDecimal investmentValue;
+    private BigDecimal ownContribution;
+    private BigDecimal comission;
 
     public enum ScheduleType {MONTHLY, QUARTERLY};
 
-    public AgroParams() {
+    public InvestmentParams() {
 
     }
 
-    public AgroParams(String name, Date contractDate, Integer period, BigDecimal amount, BigDecimal interestRate, String scheduleType) {
+    public InvestmentParams(String name, Date contractDate, Integer period, BigDecimal amount, BigDecimal interestRate, String scheduleType) {
         this.name = name;
         this.contractDate = contractDate;
         this.period = period;
         this.amount = amount;
         this.interestRate = interestRate;
-        if (scheduleType.equals("MONTHLY")) {
+        if (scheduleType.equals("monthly")) {
             this.scheduleType = ScheduleType.MONTHLY;
         } else {
             this.scheduleType = ScheduleType.QUARTERLY;
@@ -91,14 +94,5 @@ public class AgroParams {
         this.interestRate = interestRate;
     }
 
-    public String toString() {
-        return "AgroParams{" +
-                "name='" + name + '\'' +
-                ", contractDate=" + contractDate +
-                ", period=" + period +
-                ", amount=" + amount +
-                ", interestRate=" + interestRate +
-                ", scheduleType=" + scheduleType +
-                '}';
-    }
+
 }

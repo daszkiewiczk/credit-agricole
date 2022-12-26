@@ -8,7 +8,7 @@ const Investment = () => {
     const [period, setPeriod] = useState(24);
     const [amount, setAmount] = useState(200_000);
     const [interestRate, setInterestRate] = useState(5);
-    const [scheduleType, setScheduleType] = useState("monthly");
+    const [scheduleType, setScheduleType] = useState("MONTHLY");
     const [investmentValue, setInvestmentValue] = useState(100_000);
     const [ownContribution, setOwnContribution] = useState(20_000);
     const [comission, setComission] = useState(3);
@@ -25,7 +25,7 @@ const Investment = () => {
         console.log(schedule);
 
         axios.post(
-            'http://localhost:8080/api/agro',
+            'http://localhost/api/investment',
             schedule,
             {responseType:'blob'})
             .then(res => printSchedule(res.data));
@@ -58,7 +58,9 @@ const Investment = () => {
                 <input type="integer"
                        value={period}
                        onChange={(e) => setPeriod(e.target.value)}
-                       required/>
+                       required
+                        pattern="^[^0][0-9]+"/>
+
                 <label>Wartość inwestycji</label>
                 <input type="float"
                        value={investmentValue}
@@ -88,8 +90,8 @@ const Investment = () => {
                 <select
                     value={scheduleType}
                     onChange={(e) => setScheduleType(e.target.value)}>
-                    <option value="monthly">Miesięczny</option>
-                    <option value="quarterly">Kwartalny</option>
+                    <option value="MONTHLY">Miesięczny</option>
+                    <option value="QUARTERLY">Kwartalny</option>
                 </select>
                 <button>Oblicz</button>
 

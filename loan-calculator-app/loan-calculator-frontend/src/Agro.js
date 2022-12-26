@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+
 const Agro = () => {
     const currentDate = new Date();
 
@@ -16,7 +17,7 @@ const Agro = () => {
         const schedule = getSchedule();
     }
 
-    const getSchedule = async() => {
+    const getSchedule = async () => {
         const schedule = {name, contractDate, period, amount, interestRate, scheduleType};
         console.log("get schedule");
         console.log(schedule);
@@ -24,7 +25,7 @@ const Agro = () => {
         axios.post(
             'http://localhost/api/agro',
             schedule,
-            {responseType:'blob'})
+            {responseType: 'blob'})
             .then(res => printSchedule(res.data));
     }
 
@@ -36,13 +37,20 @@ const Agro = () => {
 
     return (
         <div className="agro">
-            <h2>Pożyczka Agro [this is a github action testtt111t]</h2>
+            <h2>Pożyczka Agro</h2>
             <form onSubmit={handleSubmit}>
+
                 <label htmlFor="name">Imię i nazwisko:</label>
                 <input type="text"
                        id="name"
                        value={name}
-                       onChange={(e) => setName(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[a-zA-Z ]+$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   setName(e.target.value)
+                               };
+                           }}
                        required
                 />
                 <label>Data zawarcia umowy</label>
@@ -54,17 +62,35 @@ const Agro = () => {
                 <label>Okres finansowania (w miesiącach)</label>
                 <input type="integer"
                        value={period}
-                       onChange={(e) => setPeriod(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[1-9][0-9]{0,8}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   setPeriod(e.target.value)
+                               };
+                           }}
                        required/>
                 <label>Kwota kredytu</label>
                 <input type="float"
                        value={amount}
-                       onChange={(e) => setAmount(e.target.value)}
+                       onChange={
+                    (e) => {
+                        const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                        if (e.target.value === "" || re.test(e.target.value)) {
+                            setAmount(e.target.value)
+                        };
+                    }}
                        required/>
                 <label>Oprocentowanie kredytu</label>
                 <input type="float"
                        value={interestRate}
-                       onChange={(e) => setInterestRate(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   setInterestRate(e.target.value)
+                               };
+                           }}
                        required/>
                 <label>Typ harmonogramu spłat</label>
                 <select
