@@ -19,7 +19,9 @@ kubectl -n argocd patch service argocd-server -p '{"spec":{"type":"NodePort"}}' 
 #define argocd objects
 kubectl apply -f argocd-repository.yaml #repository secret 
 kubectl apply -f argocd-application.yaml -n argocd 
-kubectl apply -f argocd-monitoring-application.yaml -n argocd 
+kubectl apply -f argocd-monitoring-application.yaml -n argocd
 
+#install keel for automating deployment images' updates
+kubectl apply -f https://sunstone.dev/keel?namespace=keel&username=admin&password=admin&tag=latest
 
 
