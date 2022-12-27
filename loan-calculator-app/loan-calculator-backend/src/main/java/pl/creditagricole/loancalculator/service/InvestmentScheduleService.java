@@ -42,7 +42,8 @@ public class InvestmentScheduleService {
         } else if (investmentParams.getScheduleType() == InvestmentParams.ScheduleType.QUARTERLY)
             paymentCount = investmentParams.getPeriod() / 3;
 
-        BigDecimal outstandingPrincipal = investmentParams.getAmount();
+        BigDecimal outstandingPrincipal = investmentParams.getAmount().subtract(investmentParams.getOwnContribution());
+
 
         for (int i = 0; i < paymentCount; i++) {
             c.setTime(investmentParams.getContractDate());

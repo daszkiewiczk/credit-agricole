@@ -9,11 +9,12 @@ import static pl.creditagricole.loancalculator.utils.MathUtils.*;
 
 
 public class InvestmentSchedule {
-    private InvestmentParams params;
+    private static InvestmentParams params;
     private List<InvestmentScheduleEntry> entries;
     private BigDecimal totalMonthlyPayment;
     private static BigDecimal pmt(BigDecimal rate, Integer months, BigDecimal presentValue, boolean t) {
         BigDecimal result = BigDecimal.ZERO;
+        presentValue = presentValue.subtract(params.getOwnContribution());
         if (rate.compareTo(BigDecimal.ZERO) == 0) {
             result =  new BigDecimal(-1.0).multiply(presentValue).divide(new BigDecimal(months), MATH_CONTEXT);
            // result =presentValue.divide(new BigDecimal(months), MATH_CONTEXT);
@@ -48,6 +49,7 @@ public class InvestmentSchedule {
 
 
         this.totalMonthlyPayment = pmt(r,n,a,false);
+
     }
 
 

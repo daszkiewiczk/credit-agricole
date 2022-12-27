@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static pl.creditagricole.loancalculator.utils.MathUtils.HUNDRED;
+
 @Entity
 @Table(name = "investment_loans")
 
@@ -50,5 +52,9 @@ public class InvestmentParams extends LoanParams {
 
     public void setComission(BigDecimal comission) {
         this.comission = comission;
+    }
+
+    public BigDecimal getCommissionValue() {
+        return investmentValue.multiply(comission).divide(HUNDRED);
     }
 }

@@ -14,13 +14,18 @@ const Agro = () => {
     const handleSubmit = (e) => {
         console.log("handle submit");
         e.preventDefault();
+        if (scheduleType === "QUARTERLY" && period % 3 !== 0) {
+            console.log("Nieprawidłowy okres spłaty");
+            alert("Okres kredytowania musi być podzielny przez 3 w przypadku harmonogramu kwartalnego");
+            return;
+        }
         const schedule = getSchedule();
+
     }
 
     const getSchedule = async () => {
         const schedule = {name, contractDate, period, amount, interestRate, scheduleType};
-        console.log("get schedule");
-        console.log(schedule);
+
 
         axios.post(
             'http://localhost/api/agro',
@@ -30,9 +35,9 @@ const Agro = () => {
     }
 
     const printSchedule = (schedule) => {
-        console.log(schedule);
+
         window.open(URL.createObjectURL(schedule));
-        console.log("print schedule");
+
     }
 
     return (
@@ -60,14 +65,15 @@ const Agro = () => {
                        onChange={(e) => setContractDate(e.target.value)}
                        required/>
                 <label>Okres finansowania (w miesiącach)</label>
-                <input type="integer"
+                <input type="number"
                        value={period}
                        onChange={
                            (e) => {
                                const re = /^[1-9][0-9]{0,8}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setPeriod(e.target.value)
-                               };
+                                   setPeriod(e.target.valueAsNumber)
+                               }
+                               ;
                            }}
                        required/>
                 <label>Kwota kredytu</label>
