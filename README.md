@@ -18,19 +18,27 @@ https://kind.sigs.k8s.io/docs/user/quick-start/#installation
 
 
 
-3. setup the cluster and build the images 
+3. setup the cluster
 
 ```
-cd cicd
+cd setup
 
-chmod u+x setup.sh build.sh
+chmod u+x setup.sh
 
 ./setup.sh
 
-./build.sh
 ```
 
-Loan calculator frontend application is available at `localhost`
+
+
+4. Loan calculator frontend application is available at `localhost`
+
+# Lifecycle
+
+Application builds are automated with GitHub Actions (triggered with pushes to 'master' branch). Built images are then pushed to a DockerHub repository. K8s Deployments are configured to actively poll for changes in that image repository with [keel.sh](https://keel.sh/). 
+
+Cluster's components are managed declaratively using [argocd](https://github.com/argoproj/argo-cd) objects with 'selfHeal' property turned on to prevent manual changes to cluster's objects.
+
 
 Grafana is available at `grafana.local`
 
@@ -52,4 +60,5 @@ sudo sysctl fs.inotify.max_user_watches=524288
 sudo sysctl fs.inotify.max_user_instances=512
 
 
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+To get the argocd admin password:
+`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
