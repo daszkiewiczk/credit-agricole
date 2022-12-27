@@ -86,7 +86,7 @@ const Agro = () => {
                        value={interestRate}
                        onChange={
                            (e) => {
-                               const re = /^[0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                               const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
                                    setInterestRate(e.target.value)
                                };
