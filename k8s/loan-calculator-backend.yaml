@@ -20,6 +20,7 @@ spec:
       containers:
       - name: loan-calculator-backend
         image: daszkiewiczk/loan-calculator:backend
+        imagePullPolicy: Always
         env:
           - name: DB_NAME
             value: db

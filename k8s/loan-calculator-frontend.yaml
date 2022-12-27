@@ -20,6 +20,7 @@ spec:
       containers:
         - name: loan-calculator-frontend
           image: daszkiewiczk/loan-calculator:frontend
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
       imagePullSecrets:
