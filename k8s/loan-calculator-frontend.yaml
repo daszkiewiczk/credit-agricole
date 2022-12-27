@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: loan-calculator-frontend
   namespace: loan-calculator
+  annotations:
+    keel.sh/policy: major
+    keel.sh/trigger: poll
+    keel.sh/pollSchedule: "@every 30s"
 spec:
   selector:
     matchLabels:
@@ -15,10 +19,12 @@ spec:
     spec:
       containers:
         - name: loan-calculator-frontend
-          image: daszkiewiczk/loan-calculator-frontend:latest
-          imagePullPolicy: Never
+          image: daszkiewiczk/loan-calculator:frontend
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
+      imagePullSecrets:
+        - name: image-repository-secret
 
 
 

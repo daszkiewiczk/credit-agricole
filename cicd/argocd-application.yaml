@@ -10,14 +10,14 @@ spec:
   source:
     path: 'k8s'
     repoURL: 'git@github.com:daszkiewiczk/credit-agricole'
-    targetRevision: master
+    targetRevision: dev
     directory:
       recurse: false
   project: default
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true
     syncOptions:
       - Validate=false
       - CreateNamespace=true

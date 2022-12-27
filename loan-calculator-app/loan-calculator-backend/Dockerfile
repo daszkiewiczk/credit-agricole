@@ -1,7 +1,9 @@
-FROM eclipse-temurin:17
-RUN mkdir /opt/app
+FROM gradle:7.6.0-jdk17 as build
+WORKDIR /app
+COPY . .
+RUN gradle build --no-daemon -x test
 
-ARG JAR_FILE=build/libs/loan-calculator-backend-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} /opt/app
-
-CMD ["java", "-jar", "/opt/app/loan-calculator-backend-0.0.1-SNAPSHOT.jar"]
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/build/libs/loan-calculator-backend-0.0.1-SNAPSHOT.jar .
+CMD ["java", "-jar", "/app/loan-calculator-backend-0.0.1-SNAPSHOT.jar"]

@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+
 const Investment = () => {
     const currentDate = new Date();
 
@@ -8,7 +9,7 @@ const Investment = () => {
     const [period, setPeriod] = useState(24);
     const [amount, setAmount] = useState(200_000);
     const [interestRate, setInterestRate] = useState(5);
-    const [scheduleType, setScheduleType] = useState("monthly");
+    const [scheduleType, setScheduleType] = useState("MONTHLY");
     const [investmentValue, setInvestmentValue] = useState(100_000);
     const [ownContribution, setOwnContribution] = useState(20_000);
     const [comission, setComission] = useState(3);
@@ -16,18 +17,46 @@ const Investment = () => {
     const handleSubmit = (e) => {
         console.log("handle submit");
         e.preventDefault();
+        if (scheduleType === "QUARTERLY" && period % 3 !== 0) {
+            console.log("Nieprawidłowy okres spłaty");
+            alert("Okres kredytowania musi być podzielny przez 3 w przypadku harmonogramu kwartalnego");
+            return;
+        }
+        if (investmentValue < ownContribution) {
+            console.log(investmentValue);
+            console.log(ownContribution);
+            console.log(typeof investmentValue);
+            console.log(typeof ownContribution);
+            alert("Wartość własnego wkładu nie może być większa niż wartość inwestycji");
+            return;
+        }
+        if (amount < ownContribution) {
+            alert("Wartość własnego wkładu nie może być większa niż wartość kredytu");
+            return;
+        }
         const schedule = getSchedule();
+
     }
 
-    const getSchedule = async() => {
-        const schedule = {name, contractDate, period, amount, interestRate, scheduleType};
+    const getSchedule = async () => {
+        const schedule = {
+            name,
+            contractDate,
+            period,
+            amount,
+            interestRate,
+            scheduleType,
+            investmentValue,
+            ownContribution,
+            comission
+        };
         console.log("get schedule");
         console.log(schedule);
 
         axios.post(
-            'http://localhost:8080/api/agro',
+            'http://localhost/api/investment',
             schedule,
-            {responseType:'blob'})
+            {responseType: 'blob'})
             .then(res => printSchedule(res.data));
     }
 
@@ -41,11 +70,19 @@ const Investment = () => {
         <div className="agro">
             <h2>Kredyt inwestycyjny</h2>
             <form onSubmit={handleSubmit}>
+
                 <label htmlFor="name">Imię i nazwisko:</label>
                 <input type="text"
                        id="name"
                        value={name}
-                       onChange={(e) => setName(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   setName(e.target.value)
+                               }
+                               ;
+                           }}
                        required
                 />
                 <label>Data zawarcia umowy</label>
@@ -55,41 +92,94 @@ const Investment = () => {
                        onChange={(e) => setContractDate(e.target.value)}
                        required/>
                 <label>Okres finansowania (w miesiącach)</label>
-                <input type="integer"
+                <input type="number"
                        value={period}
-                       onChange={(e) => setPeriod(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[1-9][0-9]{0,8}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   setPeriod(e.target.value)
+                               }
+                               ;
+                           }}
                        required/>
+
                 <label>Wartość inwestycji</label>
                 <input type="float"
                        value={investmentValue}
-                       onChange={(e) => setInvestmentValue(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   e.target.value.replace(",", ".");
+                                   setInvestmentValue(parseFloat(e.target.value));
+
+                               }
+                               ;
+                           }}
                        required/>
                 <label>Wkład własny</label>
                 <input type="float"
                        value={ownContribution}
-                       onChange={(e) => setOwnContribution(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   e.target.value.replace(",", ".");
+                                   setOwnContribution(parseFloat(e.target.value));
+
+                               }
+                               ;
+                           }}
                        required/>
                 <label>Kwota kredytu</label>
                 <input type="float"
                        value={amount}
-                       onChange={(e) => setAmount(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   e.target.value.replace(",", ".");
+                                   setAmount(parseFloat(e.target.value));
+
+                               }
+                               ;
+                           }}
                        required/>
                 <label>Oprocentowanie kredytu</label>
                 <input type="float"
                        value={interestRate}
-                       onChange={(e) => setInterestRate(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   e.target.value.replace(",", ".");
+                                   setInterestRate(parseFloat(e.target.value));
+
+                               }
+                               ;
+                           }}
                        required/>
                 <label>Prowizja</label>
                 <input type="float"
                        value={comission}
-                       onChange={(e) => setComission(e.target.value)}
+                       onChange={
+                           (e) => {
+                               const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   e.target.value.replace(",", ".");
+                                   setComission(parseFloat(e.target.value));
+
+                               }
+                               ;
+                           }}
                        required/>
                 <label>Typ harmonogramu spłat</label>
                 <select
                     value={scheduleType}
                     onChange={(e) => setScheduleType(e.target.value)}>
-                    <option value="monthly">Miesięczny</option>
-                    <option value="quarterly">Kwartalny</option>
+                    <option value="MONTHLY">Miesięczny</option>
+                    <option value="QUARTERLY">Kwartalny</option>
                 </select>
                 <button>Oblicz</button>
 

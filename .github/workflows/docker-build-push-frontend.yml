@@ -3,7 +3,7 @@ name: build and push frontend docker image
 on:
   push:
     branches:
-      - 'dev'
+      - 'master'
     paths:
       - loan-calculator-app/loan-calculator-frontend/**
       - .github/workflows/docker-build-push-frontend.yml
@@ -32,4 +32,4 @@ jobs:
         with:
           context: loan-calculator-app/loan-calculator-frontend
           push: true
-          tags: daszkiewiczk/loan-calculator-frontend:latest
+          tags: daszkiewiczk/loan-calculator:frontend

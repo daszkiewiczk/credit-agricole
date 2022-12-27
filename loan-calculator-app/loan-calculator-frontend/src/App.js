@@ -10,10 +10,6 @@ import Investment from "./Investment";
 
 function App() {
 
-    const title = 'Welcome to the new blog';
-    const likes = 50;
-    // const person = { name: 'mario', age: 30 };
-
     return (
         <BrowserRouter>
             <div className="App">

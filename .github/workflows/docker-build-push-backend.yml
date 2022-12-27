@@ -1,9 +1,11 @@
-name: build and push frontend docker image
+
+name: build and push backend docker image
+
 
 on:
   push:
     branches:
-      - 'dev'
+      - 'master'
     paths:
       - loan-calculator-app/loan-calculator-backend/**
       - .github/workflows/docker-build-push-backend.yml
