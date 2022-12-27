@@ -8,19 +8,19 @@ metadata:
   labels:
     app: keel
     chart: keel-0.9.11
-    release: RELEASE-NAME
+    release: cd-keel
     heritage: Helm
 ---
 # Source: keel/templates/secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: RELEASE-NAME-keel
+  name: cd-keel
   namespace: default
   labels:
     app: keel
     chart: keel-0.9.11
-    release: RELEASE-NAME
+    release: cd-keel
     heritage: Helm
 type: Opaque
 data:
@@ -94,24 +94,24 @@ subjects:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: RELEASE-NAME-keel
+  name: cd-keel
   namespace: default
   labels:
     app: keel
     chart: keel-0.9.11
-    release: RELEASE-NAME
+    release: cd-keel
     heritage: Helm
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: keel
-      release: RELEASE-NAME
+      release: cd-keel
   template:
     metadata:
       labels:
         app: keel
-        release: RELEASE-NAME
+        release: cd-keel
     spec:
       serviceAccountName: keel
       containers:
@@ -140,7 +140,7 @@ spec:
               value: "info"
           envFrom:
             - secretRef:
-                name: RELEASE-NAME-keel
+                name: cd-keel
           ports:
             - containerPort: 9300
           livenessProbe:
