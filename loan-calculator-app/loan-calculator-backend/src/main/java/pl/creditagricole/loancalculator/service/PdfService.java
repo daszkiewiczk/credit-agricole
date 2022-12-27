@@ -93,7 +93,7 @@ public class PdfService {
             document.add(new Paragraph("Oprocentowanie: "+investmentParams.getInterestRate().toString()+ "%") );
             document.add(new Paragraph("Wartość inwestycji (w PLN): "+investmentParams.getInvestmentValue().toString()));
             document.add(new Paragraph("Wkład własny (w PLN): "+investmentParams.getOwnContribution().toString()));
-            document.add(new Paragraph("Prowizja (w PLN): "+investmentParams.getCommissionValue().toString()));
+            document.add(new Paragraph("Prowizja (w PLN): "+investmentParams.getCommissionValue().toPlainString()));
             table.addCell("Data");
             table.addCell("Zadłużenie");
             table.addCell("Rata kapitałowa (PLN)");

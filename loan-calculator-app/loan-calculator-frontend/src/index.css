@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+a{
+    text-decoration: none;
+    color: #006f4e ;
+  padding: 10px;
+}
 .logo {
   max-width: 400px;
     margin: 0 auto;
@@ -24,7 +29,10 @@ code {
   width: 100%;
 
 }
+nav{
 
+  margin-bottom: 30px;
+}
 .agro {
   max-width: 400px;
   margin: 0 auto;
@@ -36,7 +44,7 @@ code {
 }
 .agro h2 {
   font-size: 20px;
-  color: #f1356d;
+  color: #29756e;
   margin-bottom: 30px;
 }
 .agro input, .agro textarea, .agro select {
@@ -48,10 +56,11 @@ code {
   display: block;
 }
 .agro button {
-  background: #f1356d;
+  background: #29756e;
   color: #fff;
   border: 0;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
 }
+

@@ -17,12 +17,13 @@ const Investment = () => {
     const handleSubmit = (e) => {
         console.log("handle submit");
         e.preventDefault();
+
         if (scheduleType === "QUARTERLY" && period % 3 !== 0) {
             console.log("Nieprawidłowy okres spłaty");
             alert("Okres kredytowania musi być podzielny przez 3 w przypadku harmonogramu kwartalnego");
             return;
         }
-        if (investmentValue < ownContribution) {
+        if (parseFloat(investmentValue) < parseFloat(ownContribution)) {
             console.log(investmentValue);
             console.log(ownContribution);
             console.log(typeof investmentValue);
@@ -30,7 +31,7 @@ const Investment = () => {
             alert("Wartość własnego wkładu nie może być większa niż wartość inwestycji");
             return;
         }
-        if (amount < ownContribution) {
+        if (parseFloat(amount) < parseFloat(ownContribution)) {
             alert("Wartość własnego wkładu nie może być większa niż wartość kredytu");
             return;
         }
@@ -68,7 +69,7 @@ const Investment = () => {
 
     return (
         <div className="agro">
-            <h2>Kredyt inwestycyjny</h2>
+            {/*<h2>Kredyt inwestycyjny</h2>*/}
             <form onSubmit={handleSubmit}>
 
                 <label htmlFor="name">Imię i nazwisko:</label>
@@ -111,9 +112,7 @@ const Investment = () => {
                            (e) => {
                                const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   e.target.value.replace(",", ".");
-                                   setInvestmentValue(parseFloat(e.target.value));
-
+                                   setInvestmentValue(e.target.value.replace(",", "."));
                                }
                                ;
                            }}
@@ -125,8 +124,7 @@ const Investment = () => {
                            (e) => {
                                const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   e.target.value.replace(",", ".");
-                                   setOwnContribution(parseFloat(e.target.value));
+                                   setOwnContribution(e.target.value.replace(",", "."));
 
                                }
                                ;
@@ -139,8 +137,8 @@ const Investment = () => {
                            (e) => {
                                const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   e.target.value.replace(",", ".");
-                                   setAmount(parseFloat(e.target.value));
+
+                                   setAmount(e.target.value.replace(",", "."));
 
                                }
                                ;
@@ -153,8 +151,8 @@ const Investment = () => {
                            (e) => {
                                const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   e.target.value.replace(",", ".");
-                                   setInterestRate(parseFloat(e.target.value));
+
+                                   setInterestRate(e.target.value.replace(",", "."));
 
                                }
                                ;
@@ -167,8 +165,8 @@ const Investment = () => {
                            (e) => {
                                const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   e.target.value.replace(",", ".");
-                                   setComission(parseFloat(e.target.value));
+
+                                   setComission(e.target.value.replace(",", "."));
 
                                }
                                ;
