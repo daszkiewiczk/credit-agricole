@@ -3,7 +3,7 @@ name: build and push frontend docker image
 on:
   push:
     branches:
-      - 'dev'
+      - 'master'
     paths:
       - loan-calculator-app/loan-calculator-frontend/**
       - .github/workflows/docker-build-push-frontend.yml
