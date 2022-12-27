@@ -57,7 +57,7 @@ const Agro = () => {
                                }
                                ;
                            }}
-                       required
+                       required//
                 />
                 <label>Data zawarcia umowy</label>
                 <input type="date" lang="pl-PL"
