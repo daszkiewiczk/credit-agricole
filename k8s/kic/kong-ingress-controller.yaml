@@ -1,0 +1,210 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"ingress-kong"},"name":"ingress-kong","namespace":"kong"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ingress-kong"}},"template":{"metadata":{"annotations":{"kuma.io/gateway":"enabled","kuma.io/service-account-token-volume":"kong-serviceaccount-token","traffic.sidecar.istio.io/includeInboundPorts":""},"labels":{"app":"ingress-kong"}},"spec":{"automountServiceAccountToken":false,"containers":[{"env":[{"name":"KONG_PROXY_LISTEN","value":"0.0.0.0:8000 reuseport backlog=16384, 0.0.0.0:8443 http2 ssl reuseport backlog=16384"},{"name":"KONG_PORT_MAPS","value":"80:8000, 443:8443"},{"name":"KONG_ADMIN_LISTEN","value":"127.0.0.1:8444 http2 ssl reuseport backlog=16384"},{"name":"KONG_STATUS_LISTEN","value":"0.0.0.0:8100"},{"name":"KONG_DATABASE","value":"off"},{"name":"KONG_NGINX_WORKER_PROCESSES","value":"2"},{"name":"KONG_KIC","value":"on"},{"name":"KONG_ADMIN_ACCESS_LOG","value":"/dev/stdout"},{"name":"KONG_ADMIN_ERROR_LOG","value":"/dev/stderr"},{"name":"KONG_PROXY_ERROR_LOG","value":"/dev/stderr"},{"name":"KONG_ROUTER_FLAVOR","value":"traditional"}],"image":"kong:3.1","lifecycle":{"preStop":{"exec":{"command":["/bin/bash","-c","kong quit"]}}},"livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/status","port":8100,"scheme":"HTTP"},"initialDelaySeconds":5,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"name":"proxy","ports":[{"containerPort":8000,"name":"proxy","protocol":"TCP"},{"containerPort":8443,"name":"proxy-ssl","protocol":"TCP"},{"containerPort":8100,"name":"metrics","protocol":"TCP"}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/status","port":8100,"scheme":"HTTP"},"initialDelaySeconds":5,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1}},{"env":[{"name":"CONTROLLER_KONG_ADMIN_URL","value":"https://127.0.0.1:8444"},{"name":"CONTROLLER_KONG_ADMIN_TLS_SKIP_VERIFY","value":"true"},{"name":"CONTROLLER_PUBLISH_SERVICE","value":"kong/kong-proxy"},{"name":"POD_NAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.name"}}},{"name":"POD_NAMESPACE","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"}}}],"image":"kong/kubernetes-ingress-controller:2.8.0","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/healthz","port":10254,"scheme":"HTTP"},"initialDelaySeconds":5,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"name":"ingress-controller","ports":[{"containerPort":8080,"name":"webhook","protocol":"TCP"},{"containerPort":10255,"name":"cmetrics","protocol":"TCP"}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/readyz","port":10254,"scheme":"HTTP"},"initialDelaySeconds":5,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"volumeMounts":[{"mountPath":"/var/run/secrets/kubernetes.io/serviceaccount","name":"kong-serviceaccount-token","readOnly":true}]}],"serviceAccountName":"kong-serviceaccount","volumes":[{"name":"kong-serviceaccount-token","secret":{"items":[{"key":"token","path":"token"},{"key":"ca.crt","path":"ca.crt"},{"key":"namespace","path":"namespace"}],"secretName":"kong-serviceaccount-token"}}]}}}}
+  creationTimestamp: "2022-12-27T19:57:14Z"
+  generation: 2
+  labels:
+    app: ingress-kong
+  name: ingress-kong
+  namespace: kong
+  resourceVersion: "2437"
+  uid: d65aa236-076b-4a14-abb3-184c45a20ea0
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ingress-kong
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kuma.io/gateway: enabled
+        kuma.io/service-account-token-volume: kong-serviceaccount-token
+        traffic.sidecar.istio.io/includeInboundPorts: ""
+      creationTimestamp: null
+      labels:
+        app: ingress-kong
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: KONG_PROXY_LISTEN
+              value: 0.0.0.0:8000 reuseport backlog=16384, 0.0.0.0:8443 http2 ssl reuseport
+                backlog=16384
+            - name: KONG_PORT_MAPS
+              value: 80:8000, 443:8443
+            - name: KONG_ADMIN_LISTEN
+              value: 127.0.0.1:8444 http2 ssl reuseport backlog=16384
+            - name: KONG_STATUS_LISTEN
+              value: 0.0.0.0:8100
+            - name: KONG_DATABASE
+              value: "off"
+            - name: KONG_NGINX_WORKER_PROCESSES
+              value: "2"
+            - name: KONG_KIC
+              value: "on"
+            - name: KONG_ADMIN_ACCESS_LOG
+              value: /dev/stdout
+            - name: KONG_ADMIN_ERROR_LOG
+              value: /dev/stderr
+            - name: KONG_PROXY_ERROR_LOG
+              value: /dev/stderr
+            - name: KONG_ROUTER_FLAVOR
+              value: traditional
+          image: kong:3.1
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/bash
+                  - -c
+                  - kong quit
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /status
+              port: 8100
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: proxy
+          ports:
+            - containerPort: 8000
+              hostPort: 80
+              name: proxy
+              protocol: TCP
+            - containerPort: 8443
+              hostPort: 443
+              name: proxy-ssl
+              protocol: TCP
+            - containerPort: 8100
+              name: metrics
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /status
+              port: 8100
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - env:
+            - name: CONTROLLER_KONG_ADMIN_URL
+              value: https://127.0.0.1:8444
+            - name: CONTROLLER_KONG_ADMIN_TLS_SKIP_VERIFY
+              value: "true"
+            - name: CONTROLLER_PUBLISH_SERVICE
+              value: kong/kong-proxy
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          image: kong/kubernetes-ingress-controller:2.8.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: ingress-controller
+          ports:
+            - containerPort: 8080
+              name: webhook
+              protocol: TCP
+            - containerPort: 10255
+              name: cmetrics
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /readyz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kong-serviceaccount-token
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        ingress-ready: "true"
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: kong-serviceaccount
+      serviceAccountName: kong-serviceaccount
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Equal
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Equal
+      volumes:
+        - name: kong-serviceaccount-token
+          secret:
+            defaultMode: 420
+            items:
+              - key: token
+                path: token
+              - key: ca.crt
+                path: ca.crt
+              - key: namespace
+                path: namespace
+            secretName: kong-serviceaccount-token
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: "2022-12-27T20:17:57Z"
+      lastUpdateTime: "2022-12-27T20:17:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-12-27T20:17:57Z"
+      lastUpdateTime: "2022-12-27T20:17:57Z"
+      message: ReplicaSet "ingress-kong-66b9cff9d8" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
