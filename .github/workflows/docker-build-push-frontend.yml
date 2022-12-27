@@ -32,4 +32,4 @@ jobs:
         with:
           context: loan-calculator-app/loan-calculator-frontend
           push: true
-          tags: daszkiewiczk/loan-calculator-frontend:latest
+          tags: daszkiewiczk/loan-calculator:frontend
