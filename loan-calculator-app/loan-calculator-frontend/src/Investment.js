@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+
 const Investment = () => {
     const currentDate = new Date();
 
@@ -16,18 +17,46 @@ const Investment = () => {
     const handleSubmit = (e) => {
         console.log("handle submit");
         e.preventDefault();
+        if (scheduleType === "QUARTERLY" && period % 3 !== 0) {
+            console.log("Nieprawidłowy okres spłaty");
+            alert("Okres kredytowania musi być podzielny przez 3 w przypadku harmonogramu kwartalnego");
+            return;
+        }
+        if (investmentValue < ownContribution) {
+            console.log(investmentValue);
+            console.log(ownContribution);
+            console.log(typeof investmentValue);
+            console.log(typeof ownContribution);
+            alert("Wartość własnego wkładu nie może być większa niż wartość inwestycji");
+            return;
+        }
+        if (amount < ownContribution) {
+            alert("Wartość własnego wkładu nie może być większa niż wartość kredytu");
+            return;
+        }
         const schedule = getSchedule();
+
     }
 
-    const getSchedule = async() => {
-        const schedule = {name, contractDate, period, amount, interestRate, scheduleType, investmentValue, ownContribution, comission};
+    const getSchedule = async () => {
+        const schedule = {
+            name,
+            contractDate,
+            period,
+            amount,
+            interestRate,
+            scheduleType,
+            investmentValue,
+            ownContribution,
+            comission
+        };
         console.log("get schedule");
         console.log(schedule);
 
         axios.post(
             'http://localhost/api/investment',
             schedule,
-            {responseType:'blob'})
+            {responseType: 'blob'})
             .then(res => printSchedule(res.data));
     }
 
@@ -48,10 +77,11 @@ const Investment = () => {
                        value={name}
                        onChange={
                            (e) => {
-                               const re = /^[a-zA-Z ]+$/;
+                               const re = /^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
                                    setName(e.target.value)
-                               };
+                               }
+                               ;
                            }}
                        required
                 />
@@ -62,14 +92,15 @@ const Investment = () => {
                        onChange={(e) => setContractDate(e.target.value)}
                        required/>
                 <label>Okres finansowania (w miesiącach)</label>
-                <input type="integer"
+                <input type="number"
                        value={period}
                        onChange={
                            (e) => {
                                const re = /^[1-9][0-9]{0,8}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
                                    setPeriod(e.target.value)
-                               };
+                               }
+                               ;
                            }}
                        required/>
 
@@ -80,8 +111,11 @@ const Investment = () => {
                            (e) => {
                                const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setInvestmentValue(e.target.value)
-                               };
+                                   e.target.value.replace(",", ".");
+                                   setInvestmentValue(parseFloat(e.target.value));
+
+                               }
+                               ;
                            }}
                        required/>
                 <label>Wkład własny</label>
@@ -91,8 +125,11 @@ const Investment = () => {
                            (e) => {
                                const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setOwnContribution(e.target.value)
-                               };
+                                   e.target.value.replace(",", ".");
+                                   setOwnContribution(parseFloat(e.target.value));
+
+                               }
+                               ;
                            }}
                        required/>
                 <label>Kwota kredytu</label>
@@ -102,8 +139,11 @@ const Investment = () => {
                            (e) => {
                                const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setAmount(e.target.value)
-                               };
+                                   e.target.value.replace(",", ".");
+                                   setAmount(parseFloat(e.target.value));
+
+                               }
+                               ;
                            }}
                        required/>
                 <label>Oprocentowanie kredytu</label>
@@ -113,8 +153,11 @@ const Investment = () => {
                            (e) => {
                                const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setInterestRate(e.target.value)
-                               };
+                                   e.target.value.replace(",", ".");
+                                   setInterestRate(parseFloat(e.target.value));
+
+                               }
+                               ;
                            }}
                        required/>
                 <label>Prowizja</label>
@@ -124,8 +167,11 @@ const Investment = () => {
                            (e) => {
                                const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setComission(e.target.value)
-                               };
+                                   e.target.value.replace(",", ".");
+                                   setComission(parseFloat(e.target.value));
+
+                               }
+                               ;
                            }}
                        required/>
                 <label>Typ harmonogramu spłat</label>

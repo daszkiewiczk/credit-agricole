@@ -51,10 +51,11 @@ const Agro = () => {
                        value={name}
                        onChange={
                            (e) => {
-                               const re = /^[a-zA-Z ]+$/;
+                               const re = /^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
                                    setName(e.target.value)
-                               };
+                               }
+                               ;
                            }}
                        required
                 />
@@ -80,12 +81,13 @@ const Agro = () => {
                 <input type="float"
                        value={amount}
                        onChange={
-                    (e) => {
-                        const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
-                        if (e.target.value === "" || re.test(e.target.value)) {
-                            setAmount(e.target.value)
-                        };
-                    }}
+                           (e) => {
+                               const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                               if (e.target.value === "" || re.test(e.target.value)) {
+                                   setAmount(e.target.value.replace(",", "."));
+                               }
+                               ;
+                           }}
                        required/>
                 <label>Oprocentowanie kredytu</label>
                 <input type="float"
@@ -94,8 +96,9 @@ const Agro = () => {
                            (e) => {
                                const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
                                if (e.target.value === "" || re.test(e.target.value)) {
-                                   setInterestRate(e.target.value)
-                               };
+                                   setInterestRate(e.target.value.replace(",", "."));
+                               }
+                               ;
                            }}
                        required/>
                 <label>Typ harmonogramu spłat</label>
