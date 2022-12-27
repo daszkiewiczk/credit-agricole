@@ -20,7 +20,7 @@ const Investment = () => {
     }
 
     const getSchedule = async() => {
-        const schedule = {name, contractDate, period, amount, interestRate, scheduleType};
+        const schedule = {name, contractDate, period, amount, interestRate, scheduleType, investmentValue, ownContribution, comission};
         console.log("get schedule");
         console.log(schedule);
 
