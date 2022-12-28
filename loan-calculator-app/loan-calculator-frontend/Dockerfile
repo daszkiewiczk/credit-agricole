@@ -1,5 +1,5 @@
 # specify the node base image with your desired version node:<version>
-FROM node:18
+FROM node:19-bullseye-slim
 # replace this with your application's default port
 
 # Create app directory
