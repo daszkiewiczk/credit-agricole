@@ -5,7 +5,7 @@ metadata:
 spec:
   destination:
     name: ''
-    namespace: ''
+    namespace: 'loan-calculator'
     server: 'https://kubernetes.default.svc'
   source:
     path: 'k8s'
