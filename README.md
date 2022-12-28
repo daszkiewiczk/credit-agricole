@@ -41,13 +41,14 @@ Application builds are automated with GitHub Actions (triggered with pushes to '
 Cluster's components are managed declaratively using [argocd](https://github.com/argoproj/argo-cd) objects with 'selfHeal' property turned on to prevent manual changes to cluster's objects.
 
 
-Grafana is available at `grafana.local`.
+Grafana is available at `grafana.local` and Prometheus is available at `prometheus.local`.
 
 Login: admin
 
 Password: prom-operator
 ```
 echo '127.0.0.1 grafana.local' > /etc/hosts
+echo '127.0.0.1 prometheus.local' > /etc/hosts
 ```
 
 
