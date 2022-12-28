@@ -1,10 +1,9 @@
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const Navbar = () => {
     return (
         <nav>
             <div className="links">
-                <div>keel pulled this image from docker hub</div>
                 <NavLink
                     style={({isActive}) =>
                         isActive ? ({fontSize: 20}) : ({fontSize: 15})
