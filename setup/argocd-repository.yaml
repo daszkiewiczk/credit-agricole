@@ -6,7 +6,8 @@ metadata:
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
-  url: git@github.com:daszkiewiczk/credit-agricole 
+  url: git@github.com:daszkiewiczk/credit-agricole
+  # this is the repository's deployment key (read-only)
   sshPrivateKey: |
     -----BEGIN OPENSSH PRIVATE KEY-----
     b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
