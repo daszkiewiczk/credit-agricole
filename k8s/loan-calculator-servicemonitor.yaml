@@ -4,6 +4,7 @@ metadata:
   name: loan-calculator
   namespace: monitoring
   labels:
+    app: loan-calculator-backend
 spec:
   endpoints:
     - port: web
