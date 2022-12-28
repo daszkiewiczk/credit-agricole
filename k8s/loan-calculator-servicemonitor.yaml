@@ -9,6 +9,10 @@ spec:
   endpoints:
     - port: web
       interval: 30s
+  jobLabel: monitoring
+  namespaceSelector:
+    matchNames:
+      - loan-calculator
   selector:
     matchLabels:
       app: loan-calculator-backend
