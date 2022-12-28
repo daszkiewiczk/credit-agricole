@@ -76,6 +76,7 @@ public class PdfService {
 
     public byte[] getInvestmentPdf(InvestmentParams investmentParams) {
         try {
+
             InvestmentSchedule investmentSchedule = investmentScheduleService.calculateInvestmentSchedule(investmentParams);
             ByteArrayOutputStream pdfDataStream = new ByteArrayOutputStream();
 
@@ -85,7 +86,7 @@ public class PdfService {
             document.open();
             Table table = new Table(5,investmentSchedule.getEntries().size());
 
-
+document.add(new Paragraph("keel pulled this image from docker hub"));
             document.add(new Paragraph("Imię i nazwisko: "+investmentParams.getName()));
             document.add(new Paragraph("Data zawarcia umowy: "+df.format(investmentParams.getContractDate())));
             document.add(new Paragraph("Okres finansowania (w miesiącach): "+investmentParams.getPeriod().toString()));
