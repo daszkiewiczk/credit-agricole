@@ -47,10 +47,16 @@ Grafana is available at `grafana.local`.
 Login: admin
 
 Password: prom-operator
-
 ```
 echo '127.0.0.1 grafana.local' > /etc/hosts
 ```
+
+
+Repository is scanned for security vulnerabilities with [snyk](https://snyk.io/). Automatic pull requests are enabled and snyk-bot opens fix PRs on daszkiewiczk's behalf.
+
+
+
+
 
 # Troubleshooting
 
