@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: loan-calculator-backend-service
   namespace: loan-calculator
+  labels:
+    app: loan-calculator-backend
 spec:
   selector:
     app: loan-calculator-backend
   ports:
     - protocol: "TCP"
+      name: "web"
       port: 8080
       targetPort: 8080

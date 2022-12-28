@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: loan-calculator
+  namespace: default
+  labels:
+spec:
+  endpoints:
+    - port: web
+      interval: 30s
+  selector:
+    matchLabels:
+      app: loan-calculator-backend
+
