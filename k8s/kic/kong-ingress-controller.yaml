@@ -188,22 +188,3 @@ spec:
               - key: namespace
                 path: namespace
             secretName: kong-serviceaccount-token
-status:
-  availableReplicas: 1
-  conditions:
-    - lastTransitionTime: "2022-12-27T20:17:57Z"
-      lastUpdateTime: "2022-12-27T20:17:57Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2022-12-27T20:17:57Z"
-      lastUpdateTime: "2022-12-27T20:17:57Z"
-      message: ReplicaSet "ingress-kong-66b9cff9d8" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-  observedGeneration: 2
-  readyReplicas: 1
-  replicas: 1
-  updatedReplicas: 1
