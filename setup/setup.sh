@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #create the cluster
-kind create cluster --name kazik --config ../cluster.yaml
+kind create cluster --name kazik --config ../cluster.yaml --image kindest/node:v1.25.3
 
 #create argocd
 kubectl create namespace argocd
