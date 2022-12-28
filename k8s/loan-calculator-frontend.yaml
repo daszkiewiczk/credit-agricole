@@ -19,6 +19,8 @@ spec:
     spec:
       containers:
         - name: loan-calculator-frontend
+          # image tag specifies application instead of a version as a workaround -
+          # - DockerHub free tier only permits one private repository per account
           image: daszkiewiczk/loan-calculator:frontend
           imagePullPolicy: Always
           ports:

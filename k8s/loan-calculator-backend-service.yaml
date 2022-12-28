@@ -1,12 +1,12 @@
 apiVersion: v1
-kind: Service 
+kind: Service
 metadata:
   name: loan-calculator-backend-service
   namespace: loan-calculator
 spec:
   selector:
-    app: loan-calculator-backend 
+    app: loan-calculator-backend
   ports:
-  - protocol: "TCP"
-    port: 8080
-    targetPort: 8080
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080

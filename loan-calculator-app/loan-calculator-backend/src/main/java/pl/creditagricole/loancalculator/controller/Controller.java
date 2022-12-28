@@ -12,12 +12,13 @@ import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 @RestController
 public class Controller {
     private PdfService pdfService;
+
     @Autowired
     public Controller(PdfService pdfService) {
         this.pdfService = pdfService;
     }
 
-    @PostMapping(value="/api/agro", produces = APPLICATION_PDF_VALUE)
+    @PostMapping(value = "/api/agro", produces = APPLICATION_PDF_VALUE)
     @CrossOrigin(origins = "*")
     public ResponseEntity<byte[]> getAgroPdf(@RequestBody AgroParams agroParams) {
         System.out.println(agroParams);
@@ -27,7 +28,7 @@ public class Controller {
                 .body(pdfService.getAgroPdf(agroParams));
     }
 
-    @PostMapping(value="/api/investment", produces = APPLICATION_PDF_VALUE)
+    @PostMapping(value = "/api/investment", produces = APPLICATION_PDF_VALUE)
     @CrossOrigin(origins = "*")
     public ResponseEntity<byte[]> getInvestmentPdf(@RequestBody InvestmentParams investmentParams) {
         return ResponseEntity

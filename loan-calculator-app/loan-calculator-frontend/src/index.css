@@ -1,66 +1,73 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-a{
+a {
     text-decoration: none;
-    color: #006f4e ;
-  padding: 10px;
+    color: #006f4e;
+    padding: 10px;
 }
+
 .logo {
-  max-width: 400px;
+    max-width: 400px;
     margin: 0 auto;
 }
 
 .logo img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 
 }
-nav{
 
-  margin-bottom: 30px;
+nav {
+
+    margin-bottom: 30px;
 }
+
 .agro {
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
 }
+
 .agro label {
-  text-align: left;
-  display: block;
+    text-align: left;
+    display: block;
 }
+
 .agro h2 {
-  font-size: 20px;
-  color: #29756e;
-  margin-bottom: 30px;
+    font-size: 20px;
+    color: #29756e;
+    margin-bottom: 30px;
 }
+
 .agro input, .agro textarea, .agro select {
-  width: 100%;
-  padding: 6px 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-  display: block;
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
 }
+
 .agro button {
-  background: #29756e;
-  color: #fff;
-  border: 0;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
+    background: #29756e;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 

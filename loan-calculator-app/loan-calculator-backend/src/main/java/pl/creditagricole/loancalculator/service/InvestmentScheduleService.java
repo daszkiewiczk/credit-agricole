@@ -19,7 +19,6 @@ public class InvestmentScheduleService {
     private InvestmentRepository investmentRepository;
 
     private Integer paymentCount;
-    private Date paymentInterval;
     @Autowired
     public InvestmentScheduleService(InvestmentRepository investmentRepository) {
         this.investmentRepository = investmentRepository;

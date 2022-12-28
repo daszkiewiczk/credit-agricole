@@ -14,15 +14,15 @@ function App() {
         <BrowserRouter>
             <div className="App">
                 <header>
-                    <Logo />
+                    <Logo/>
                     <Navbar/>
                 </header>
                 <main>
-                        <Routes>
-                            <Route exact path="/" element={<Home/>}/>
-                            <Route exact path="/agro" element={<Agro/>}/>
-                            <Route exact path="/investment" element={<Investment/>}/>
-                        </Routes>
+                    <Routes>
+                        <Route exact path="/" element={<Home/>}/>
+                        <Route exact path="/agro" element={<Agro/>}/>
+                        <Route exact path="/investment" element={<Investment/>}/>
+                    </Routes>
                 </main>
             </div>
         </BrowserRouter>

@@ -18,20 +18,22 @@ spec:
         app: loan-calculator-backend
     spec:
       containers:
-      - name: loan-calculator-backend
-        image: daszkiewiczk/loan-calculator:backend
-        imagePullPolicy: Always
-        env:
-          - name: DB_NAME
-            value: db
-          - name: DB_USER
-            value: user
-          - name: DB_PASSWORD
-            value: password
-          - name: DB_HOST
-            value: postgres
-        ports:
-        - containerPort: 8080
+        - name: loan-calculator-backend
+          # image tag specifies application instead of a version as a workaround -
+          # - DockerHub free tier only permits one private repository per account
+          image: daszkiewiczk/loan-calculator:backend
+          imagePullPolicy: Always
+          env:
+            - name: DB_NAME
+              value: db
+            - name: DB_USER
+              value: user
+            - name: DB_PASSWORD
+              value: password
+            - name: DB_HOST
+              value: postgres
+          ports:
+            - containerPort: 8080
       imagePullSecrets:
         - name: image-repository-secret
 

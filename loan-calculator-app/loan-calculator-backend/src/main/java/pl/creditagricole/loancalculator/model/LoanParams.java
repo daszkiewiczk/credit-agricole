@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class LoanParams {
@@ -20,7 +21,9 @@ public class LoanParams {
     @Column(name = "schedule_type")
     private ScheduleType scheduleType;
 
-    public enum ScheduleType {MONTHLY, QUARTERLY};
+    public enum ScheduleType {MONTHLY, QUARTERLY}
+
+    ;
 
 
     public LoanParams() {
@@ -39,6 +42,7 @@ public class LoanParams {
             this.scheduleType = ScheduleType.QUARTERLY;
         }
     }
+
     public String getName() {
         return name;
     }

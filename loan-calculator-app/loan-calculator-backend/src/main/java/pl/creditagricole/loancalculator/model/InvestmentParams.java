@@ -18,7 +18,6 @@ public class InvestmentParams extends LoanParams {
     private BigDecimal comission;
 
 
-
     public InvestmentParams(String name, Date contractDate, Integer period, BigDecimal amount, BigDecimal interestRate, String scheduleType, BigDecimal investmentValue, BigDecimal ownContribution, BigDecimal comission) {
         super(name, contractDate, period, amount, interestRate, scheduleType);
         this.investmentValue = investmentValue;

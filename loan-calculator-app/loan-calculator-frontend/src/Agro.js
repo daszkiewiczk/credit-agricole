@@ -27,10 +27,7 @@ const Agro = () => {
         const schedule = {name, contractDate, period, amount, interestRate, scheduleType};
 
 
-        axios.post(
-            'http://localhost/api/agro',
-            schedule,
-            {responseType: 'blob'})
+        axios.post('http://localhost/api/agro', schedule, {responseType: 'blob'})
             .then(res => printSchedule(res.data));
     }
 
@@ -40,8 +37,7 @@ const Agro = () => {
 
     }
 
-    return (
-        <div className="agro">
+    return (<div className="agro">
             {/*<h2>Pożyczka Agro</h2>*/}
             <form onSubmit={handleSubmit}>
 
@@ -49,14 +45,13 @@ const Agro = () => {
                 <input type="text"
                        id="name"
                        value={name}
-                       onChange={
-                           (e) => {
-                               const re = /^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/;
-                               if (e.target.value === "" || re.test(e.target.value)) {
-                                   setName(e.target.value)
-                               }
-                               ;
-                           }}
+                       onChange={(e) => {
+                           const re = /^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/;
+                           if (e.target.value === "" || re.test(e.target.value)) {
+                               setName(e.target.value)
+                           }
+                           ;
+                       }}
                        required//
                 />
                 <label>Data zawarcia umowy</label>
@@ -68,38 +63,35 @@ const Agro = () => {
                 <label>Okres finansowania (w miesiącach)</label>
                 <input type="number"
                        value={period}
-                       onChange={
-                           (e) => {
-                               const re = /^[1-9][0-9]{0,8}$/;
-                               if (e.target.value === "" || re.test(e.target.value)) {
-                                   setPeriod(e.target.valueAsNumber)
-                               }
-                               ;
-                           }}
+                       onChange={(e) => {
+                           const re = /^[1-9][0-9]{0,8}$/;
+                           if (e.target.value === "" || re.test(e.target.value)) {
+                               setPeriod(e.target.valueAsNumber)
+                           }
+                           ;
+                       }}
                        required/>
                 <label>Kwota kredytu</label>
                 <input type="float"
                        value={amount}
-                       onChange={
-                           (e) => {
-                               const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
-                               if (e.target.value === "" || re.test(e.target.value)) {
-                                   setAmount(e.target.value.replace(",", "."));
-                               }
-                               ;
-                           }}
+                       onChange={(e) => {
+                           const re = /^[1-9][0-9]*[\.,]{0,1}[0-9]{0,2}$/;
+                           if (e.target.value === "" || re.test(e.target.value)) {
+                               setAmount(e.target.value.replace(",", "."));
+                           }
+                           ;
+                       }}
                        required/>
                 <label>Oprocentowanie kredytu</label>
                 <input type="float"
                        value={interestRate}
-                       onChange={
-                           (e) => {
-                               const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
-                               if (e.target.value === "" || re.test(e.target.value)) {
-                                   setInterestRate(e.target.value.replace(",", "."));
-                               }
-                               ;
-                           }}
+                       onChange={(e) => {
+                           const re = /^[0-9]*[\.,]{0,1}[0-9]{0,3}$/;
+                           if (e.target.value === "" || re.test(e.target.value)) {
+                               setInterestRate(e.target.value.replace(",", "."));
+                           }
+                           ;
+                       }}
                        required/>
                 <label>Typ harmonogramu spłat</label>
                 <select
@@ -113,8 +105,7 @@ const Agro = () => {
 
             </form>
 
-        </div>
-    );
+        </div>);
 }
 
 export default Agro;

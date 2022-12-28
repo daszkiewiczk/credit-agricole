@@ -119,7 +119,7 @@ spec:
           # Note that we use appVersion to get images tag.
           image: "keelhq/keel:0.16.1"
           imagePullPolicy: Always
-          command: ["/bin/keel"]
+          command: [ "/bin/keel" ]
           volumeMounts:
           env:
             - name: NAMESPACE

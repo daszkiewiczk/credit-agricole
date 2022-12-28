@@ -19,7 +19,7 @@ public class AgroScheduleService {
     private AgroRepository agroRepository;
 
     private Integer paymentCount;
-    private Date paymentInterval;
+
     @Autowired
     public AgroScheduleService(AgroRepository agroRepository) {
         this.agroRepository = agroRepository;

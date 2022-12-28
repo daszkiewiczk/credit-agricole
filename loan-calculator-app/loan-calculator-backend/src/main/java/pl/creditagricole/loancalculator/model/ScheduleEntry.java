@@ -23,6 +23,7 @@ public class ScheduleEntry {
     public BigDecimal getCapitalPart() {
         return capitalPart;
     }
+
     public BigDecimal getInterestPart() {
         return interestPart;
     }

@@ -1,6 +1,4 @@
-
 name: build and push backend docker image
-
 
 on:
   push:
@@ -34,4 +32,6 @@ jobs:
         with:
           context: loan-calculator-app/loan-calculator-backend
           push: true
+          # image tag specifies application instead of a version as a workaround -
+          # - DockerHub free tier only permits one private repository per account
           tags: daszkiewiczk/loan-calculator:backend

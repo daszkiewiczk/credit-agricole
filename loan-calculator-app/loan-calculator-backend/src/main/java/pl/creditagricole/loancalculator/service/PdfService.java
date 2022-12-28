@@ -40,23 +40,23 @@ public class PdfService {
             PdfWriter.getInstance(document, pdfDataStream);
 
             document.open();
-            Table table = new Table(5,agroSchedule.getEntries().size());
+            Table table = new Table(5, agroSchedule.getEntries().size());
 
 
-            document.add(new Paragraph("Imię i nazwisko: "+agroParams.getName()));
+            document.add(new Paragraph("Imię i nazwisko: " + agroParams.getName()));
 
-            document.add(new Paragraph("Data zawarcia umowy: "+df.format(agroParams.getContractDate())));    document.add(new Paragraph("Okres finansowania (w miesiącach): "+agroParams.getPeriod().toString()));
-            document.add(new Paragraph("Kwota kredytu (w PLN): "+agroParams.getAmount().toString()));
-            document.add(new Paragraph("Oprocentowanie: "+agroParams.getInterestRate().toString()+"%"));
+            document.add(new Paragraph("Data zawarcia umowy: " + df.format(agroParams.getContractDate())));
+            document.add(new Paragraph("Okres finansowania (w miesiącach): " + agroParams.getPeriod().toString()));
+            document.add(new Paragraph("Kwota kredytu (w PLN): " + agroParams.getAmount().toString()));
+            document.add(new Paragraph("Oprocentowanie: " + agroParams.getInterestRate().toString() + "%"));
             table.addCell("Data");
             table.addCell("Zadłużenie");
             table.addCell("Rata kapitałowa (PLN)");
             table.addCell("Rata odsetkowa (PLN)");
             table.addCell("Rata całkowita (PLN)");
 
-            for(int i = 0; i < agroSchedule.getEntries().size(); ++i)
-            {
-                table.addCell(agroSchedule.getEntries().get(i).getPaymentDate().toString().substring(4,11));
+            for (int i = 0; i < agroSchedule.getEntries().size(); ++i) {
+                table.addCell(agroSchedule.getEntries().get(i).getPaymentDate().toString().substring(4, 11));
                 table.addCell(agroSchedule.getEntries().get(i).getOutstandingPrincipal().toString());
                 table.addCell(agroSchedule.getEntries().get(i).getCapitalPart().toString());
                 table.addCell(agroSchedule.getEntries().get(i).getInterestPart().toString());
@@ -84,26 +84,24 @@ public class PdfService {
             PdfWriter.getInstance(document, pdfDataStream);
 
             document.open();
-            Table table = new Table(5,investmentSchedule.getEntries().size());
+            Table table = new Table(5, investmentSchedule.getEntries().size());
 
-document.add(new Paragraph("keel pulled this image from docker hub"));
-            document.add(new Paragraph("Imię i nazwisko: "+investmentParams.getName()));
-            document.add(new Paragraph("Data zawarcia umowy: "+df.format(investmentParams.getContractDate())));
-            document.add(new Paragraph("Okres finansowania (w miesiącach): "+investmentParams.getPeriod().toString()));
-            document.add(new Paragraph("Kwota kredytu (w PLN): "+investmentParams.getAmount().toString()));
-            document.add(new Paragraph("Oprocentowanie: "+investmentParams.getInterestRate().toString()+ "%") );
-            document.add(new Paragraph("Wartość inwestycji (w PLN): "+investmentParams.getInvestmentValue().toString()));
-            document.add(new Paragraph("Wkład własny (w PLN): "+investmentParams.getOwnContribution().toString()));
-            document.add(new Paragraph("Prowizja (w PLN): "+investmentParams.getCommissionValue().toPlainString()));
+            document.add(new Paragraph("Imię i nazwisko: " + investmentParams.getName()));
+            document.add(new Paragraph("Data zawarcia umowy: " + df.format(investmentParams.getContractDate())));
+            document.add(new Paragraph("Okres finansowania (w miesiącach): " + investmentParams.getPeriod().toString()));
+            document.add(new Paragraph("Kwota kredytu (w PLN): " + investmentParams.getAmount().toString()));
+            document.add(new Paragraph("Oprocentowanie: " + investmentParams.getInterestRate().toString() + "%"));
+            document.add(new Paragraph("Wartość inwestycji (w PLN): " + investmentParams.getInvestmentValue().toString()));
+            document.add(new Paragraph("Wkład własny (w PLN): " + investmentParams.getOwnContribution().toString()));
+            document.add(new Paragraph("Prowizja (w PLN): " + investmentParams.getCommissionValue().toPlainString()));
             table.addCell("Data");
             table.addCell("Zadłużenie");
             table.addCell("Rata kapitałowa (PLN)");
             table.addCell("Rata odsetkowa (PLN)");
             table.addCell("Rata całkowita (PLN)");
 
-            for(int i = 0; i < investmentSchedule.getEntries().size(); ++i)
-            {
-                table.addCell(investmentSchedule.getEntries().get(i).getPaymentDate().toString().substring(4,11));
+            for (int i = 0; i < investmentSchedule.getEntries().size(); ++i) {
+                table.addCell(investmentSchedule.getEntries().get(i).getPaymentDate().toString().substring(4, 11));
                 table.addCell(investmentSchedule.getEntries().get(i).getOutstandingPrincipal().toString());
                 table.addCell(investmentSchedule.getEntries().get(i).getCapitalPart().toString());
                 table.addCell(investmentSchedule.getEntries().get(i).getInterestPart().toString());
