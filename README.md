@@ -30,7 +30,7 @@ chmod u+x setup.sh
 
 
 
-4. Loan calculator frontend application is available at `localhost`
+4. Loan calculator frontend application is available at `localhost`. You might have to allow pop-ups for the pdf file to open in new tab.
 
 # Lifecycle
 
