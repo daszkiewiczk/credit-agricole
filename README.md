@@ -1,3 +1,12 @@
+>This repository was a winning entry in *DevOps Ninja* contest organized by Credit Agricole in collaboration with [Dell Technologies](https://github.com/dell) and [VMWare](https://github.com/vmware).
+
+![DevOps Ninja](https://devopsninjakonkurs.pl/wp-content/themes/ca-dell/img/logo_devops.png)
+
+
+
+
+
+
 >Kubernetes cluster and residing applicaiton were tested on Ubuntu 22.04
 
 # To setup the cluster and run the app:
@@ -75,4 +84,4 @@ Repository is scanned for security vulnerabilities with [snyk](https://snyk.io/)
 To get the argocd admin password:
 `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
 
->IF for some reason automated build fails, there is a build.sh script provided in 'setup' directory `cd setup && .build.sh`
+>IF for some reason automated build fails, there is a build.sh script provided in 'setup' directory `cd setup && ./build.sh`
